@@ -205,7 +205,24 @@ class RawFileBrowser extends React.Component {
 
   selectFiles = (files) => {
     console.log('select files', files)
+    const newSelection = [];
     files.map((file) => {
+      const pathArr = file.key.split('/')
+      const currentPath = []
+      pathArr.map((pathPart, index) => {
+        if (pathPart) {
+          currentPath.push(pathPart)
+          if (index !== pathArr.length - 1) {
+            console.log('openFolder', currentPath.join('/'))
+            this.openFolder(currentPath.join('/'))
+          } else {
+            console.log('newSelection', currentPath.join('/'))
+            if (!newSelection.includes(currentPath.join('/'))) {
+              newSelection.push({ key: currentPath.join('/') })
+            }
+          }
+        }
+      })
       this.select(file.key, 'file', files.length > 1)
     })
   }
