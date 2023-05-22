@@ -29,11 +29,6 @@ module.exports = {
   },
   optimization: {
     minimize: false,
-    splitChunks: {
-      chunks: 'all',
-      name: true,
-    },
-    runtimeChunk: true,
   },
   // externals: NodeExternals(),
 }
