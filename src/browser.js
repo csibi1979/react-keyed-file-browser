@@ -176,7 +176,7 @@ class RawFileBrowser extends React.Component {
     if (this.props.renderStyle === 'table' && this.props.nestChildren) {
       console.warn('Invalid settings: Cannot nest table children in file browser')
     }
-    if (this.props.selectedFiles.length) {
+    if (this.props.files.length && this.props.selectedFiles.length) {
       this.selectFiles(this.props.selectedFiles)
     }
 
@@ -203,11 +203,11 @@ class RawFileBrowser extends React.Component {
     }
   }
 
-  selectFiles = (files) => {
-    console.log('select files', files)
+  selectFiles = (selectedFiles) => {
+    console.log('select files', selectedFiles)
     const folderSelection = []
     const fileSelection = []
-    files.map((file) => {
+    selectedFiles.map((file) => {
       const pathArr = file.key.split('/')
       const currentPath = []
       pathArr.map((pathPart, index) => {
