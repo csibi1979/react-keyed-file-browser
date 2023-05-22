@@ -8,6 +8,8 @@ import flow from 'lodash/flow'
 import BaseFile, { BaseFileConnectors } from './../base-file.js'
 import { fileSize } from './utils.js'
 
+import { hu } from 'date-fns/locale'
+
 class RawListThumbnailFile extends BaseFile {
   static defaultProps = {
     showName: true,
@@ -88,7 +90,7 @@ class RawListThumbnailFile extends BaseFile {
       if (!isRenaming && !isDeleting) {
         modified = (
           <span className="modified">
-            Módosítva: {formatDistanceToNow(this.props.modified, { addSuffix: true })}
+            Módosítva: {formatDistanceToNow(this.props.modified, { addSuffix: true, locale: hu })}
           </span>
         )
       }
