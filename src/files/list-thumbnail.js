@@ -88,7 +88,7 @@ class RawListThumbnailFile extends BaseFile {
       if (!isRenaming && !isDeleting) {
         modified = (
           <span className="modified">
-            Last modified: {formatDistanceToNow(this.props.modified, { addSuffix: true })}
+            Módosítva: {formatDistanceToNow(this.props.modified, { addSuffix: true, locale: { code: 'hu' } })}
           </span>
         )
       }
@@ -129,7 +129,7 @@ class RawListThumbnailFile extends BaseFile {
 }
 
 const ListThumbnailFile = flow(
-  DragSource('file', BaseFileConnectors.dragSource, BaseFileConnectors.dragCollect), 
+  DragSource('file', BaseFileConnectors.dragSource, BaseFileConnectors.dragCollect),
   DropTarget(['file', 'folder', NativeTypes.FILE], BaseFileConnectors.targetSource, BaseFileConnectors.targetCollect)
 )(RawListThumbnailFile)
 

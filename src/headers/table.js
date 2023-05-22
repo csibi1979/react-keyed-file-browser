@@ -35,9 +35,9 @@ class RawTableHeader extends React.Component {
           selected: this.props.isSelected,
         })}
       >
-        <th>File</th>
-        <th className="size">Size</th>
-        <th className="modified">Last Modified</th>
+        <th>Fájl</th>
+        <th className="size">Méret</th>
+        <th className="modified">Módosítva</th>
       </tr>
     )
 
@@ -54,8 +54,8 @@ class RawTableHeader extends React.Component {
 }
 
 const TableHeader = DropTarget(
-  ['file', 'folder', NativeTypes.FILE], 
-  BaseFileConnectors.targetSource, 
+  ['file', 'folder', NativeTypes.FILE],
+  BaseFileConnectors.targetSource,
   BaseFileConnectors.targetCollect
 )(RawTableHeader)
 

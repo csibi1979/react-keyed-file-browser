@@ -45,3 +45,4 @@ demo-site/dist/
 
 .yalc
 *yalc.lock
+yarn.lock

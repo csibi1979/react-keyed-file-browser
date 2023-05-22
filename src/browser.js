@@ -87,6 +87,7 @@ class RawFileBrowser extends React.Component {
     actionRenderer: PropTypes.func,
     confirmDeletionRenderer: PropTypes.func,
     confirmMultipleDeletionRenderer: PropTypes.func,
+    selectFiles: PropTypes.func,
 
     onCreateFiles: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     onCreateFolder: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
@@ -114,9 +115,9 @@ class RawFileBrowser extends React.Component {
     showActionBar: true,
     canFilter: true,
     showFoldersOnFilter: false,
-    noFilesMessage: 'No files.',
-    noMatchingFilesMessage: (filter) => `No files matching "${filter}".`,
-    showMoreResults: 'Show more results',
+    noFilesMessage: 'Nincsenek fájlok',
+    noMatchingFilesMessage: (filter) => `Nincs ilyen fájl "${filter}".`,
+    showMoreResults: 'Több eredmény mutatása',
 
     group: GroupByFolder,
     sort: SortByName,
@@ -139,6 +140,7 @@ class RawFileBrowser extends React.Component {
     actionRenderer: DefaultAction,
     confirmDeletionRenderer: DefaultConfirmDeletion,
     confirmMultipleDeletionRenderer: MultipleConfirmDeletion,
+    selectFiles: this.selectFiles,
 
     icons: {},
 
@@ -193,6 +195,11 @@ class RawFileBrowser extends React.Component {
     if (hasPrefix) {
       return { key, modified: 0, size: 0, relativeKey: key }
     }
+  }
+
+  selectFiles = (files) => {
+    console.log('selectFiles', files)
+    // this.setState()
   }
 
   // item manipulation
