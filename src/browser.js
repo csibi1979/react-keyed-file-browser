@@ -229,6 +229,9 @@ class RawFileBrowser extends React.Component {
         selection: fileSelection,
       }, () => {
         console.log('selection set')
+        setTimeout(() => {
+          this.forceUpdate()
+        }, 1000)
       })
     })
   }
@@ -751,6 +754,7 @@ class RawFileBrowser extends React.Component {
       fileCount: this.props.files.length,
     }
     let renderedFiles
+    console.log('browser render')
 
     const files = this.getFiles()
     const selectedItems = this.getSelectedItems(files)
