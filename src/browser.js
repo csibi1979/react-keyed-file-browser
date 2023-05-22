@@ -21,6 +21,11 @@ import { SortByName } from './sorters'
 import { isFolder } from './utils'
 import { DefaultAction } from './actions'
 
+import { hu } from 'date-fns/locale'
+
+const setDefaultOptions = require('date-fns/setDefaultOptions')
+setDefaultOptions({ locale: hu })
+
 const SEARCH_RESULTS_PER_PAGE = 20
 const regexForNewFolderOrFileSelection = /.*\/__new__[/]?$/gm
 

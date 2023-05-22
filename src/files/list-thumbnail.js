@@ -88,7 +88,7 @@ class RawListThumbnailFile extends BaseFile {
       if (!isRenaming && !isDeleting) {
         modified = (
           <span className="modified">
-            Módosítva: {formatDistanceToNow(this.props.modified, { addSuffix: true, locale: { code: 'hu' } })}
+            Módosítva: {formatDistanceToNow(this.props.modified, { addSuffix: true })}
           </span>
         )
       }
