@@ -1,1 +1,2805 @@
-!function(e,t){"object"==typeof exports&&"object"==typeof module?module.exports=t():"function"==typeof define&&define.amd?define([],t):"object"==typeof exports?exports["react-keyed-file-browser"]=t():e["react-keyed-file-browser"]=t()}(window,(function(){return function(e){var t={};function r(n){if(t[n])return t[n].exports;var o=t[n]={i:n,l:!1,exports:{}};return e[n].call(o.exports,o,o.exports,r),o.l=!0,o.exports}return r.m=e,r.c=t,r.d=function(e,t,n){r.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:n})},r.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},r.t=function(e,t){if(1&t&&(e=r(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var n=Object.create(null);if(r.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var o in e)r.d(n,o,function(t){return e[t]}.bind(null,o));return n},r.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return r.d(t,"a",t),t},r.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},r.p="",r(r.s=8)}([function(e,t){e.exports=require("prop-types")},function(e,t){e.exports=require("react")},function(e,t){e.exports=require("date-fns")},function(e,t){e.exports=require("react-dnd")},function(e,t){e.exports=require("react-dnd-html5-backend")},function(e,t){e.exports=require("classnames")},function(e,t){e.exports=require("lodash/flow")},function(e,t){e.exports=require("date-fns/locale")},function(e,t,r){"use strict";r.r(t),r.d(t,"RawFileBrowser",(function(){return bt})),r.d(t,"BaseFile",(function(){return L})),r.d(t,"BaseFileConnectors",(function(){return M})),r.d(t,"BaseFolder",(function(){return ge})),r.d(t,"BaseFolderConnectors",(function(){return me})),r.d(t,"Headers",(function(){return a})),r.d(t,"FileRenderers",(function(){return l})),r.d(t,"FolderRenderers",(function(){return s})),r.d(t,"Details",(function(){return n})),r.d(t,"Filters",(function(){return o})),r.d(t,"Groupers",(function(){return c})),r.d(t,"Sorters",(function(){return d})),r.d(t,"Icons",(function(){return p})),r.d(t,"Utils",(function(){return i}));var n={};r.r(n),r.d(n,"DefaultDetail",(function(){return v}));var o={};r.r(o),r.d(o,"DefaultFilter",(function(){return C}));var i={};r.r(i),r.d(i,"isFolder",(function(){return k})),r.d(i,"moveFilesAndFolders",(function(){return S}));var a={};r.r(a),r.d(a,"TableHeader",(function(){return z}));var l={};r.r(l),r.d(l,"ListThumbnailFile",(function(){return ee})),r.d(l,"SimpleListThumbnailFile",(function(){return ce})),r.d(l,"TableFile",(function(){return pe})),r.d(l,"RawListThumbnailFile",(function(){return Z})),r.d(l,"RawTableFile",(function(){return de}));var s={};r.r(s),r.d(s,"ListThumbnailFolder",(function(){return Oe})),r.d(s,"TableFolder",(function(){return Se})),r.d(s,"RawListThumbnailFolder",(function(){return Re})),r.d(s,"RawTableFolder",(function(){return ke}));var c={};r.r(c),r.d(c,"GroupByFolder",(function(){return We})),r.d(c,"GroupByModifiedRelative",(function(){return Xe}));var d={};r.r(d),r.d(d,"SortByName",(function(){return rt})),r.d(d,"SortByModified",(function(){return nt}));var p={};r.r(p),r.d(p,"FontAwesome",(function(){return Dt}));var h=r(0),u=r.n(h),f=r(1),m=r.n(f),g=r(3),F=r(4),b=Object.defineProperty,w=(e,t,r)=>(((e,t,r)=>{t in e?b(e,t,{enumerable:!0,configurable:!0,writable:!0,value:r}):e[t]=r})(e,"symbol"!=typeof t?t+"":t,r),r);class y extends m.a.Component{constructor(){super(...arguments),w(this,"handleCloseClick",e=>{e&&e.preventDefault(),this.props.close()})}render(){let e=this.props.file.key.split("/");return e=e.length?e[e.length-1]:"",m.a.createElement("div",null,m.a.createElement("h2",null,"Item Detail"),m.a.createElement("dl",null,m.a.createElement("dt",null,"Key"),m.a.createElement("dd",null,this.props.file.key),m.a.createElement("dt",null,"Name"),m.a.createElement("dd",null,e)),m.a.createElement("a",{href:"#",onClick:this.handleCloseClick},"Close"))}}w(y,"propTypes",{file:u.a.shape({key:u.a.string.isRequired,name:u.a.string.isRequired,extension:u.a.string.isRequired,url:u.a.string}).isRequired,close:u.a.func});var v=y,D=Object.defineProperty,E=(e,t,r)=>(((e,t,r)=>{t in e?D(e,t,{enumerable:!0,configurable:!0,writable:!0,value:r}):e[t]=r})(e,"symbol"!=typeof t?t+"":t,r),r);class P extends m.a.Component{constructor(){super(...arguments),E(this,"handleFilterChange",e=>{const t=e.target.value;this.props.updateFilter(t)})}render(){return m.a.createElement("input",{type:"search",placeholder:"Szűrő",value:this.props.value,onChange:this.handleFilterChange})}}E(P,"propTypes",{value:u.a.string.isRequired,updateFilter:u.a.func});var C=P,R=r(5),O=r.n(R);function k(e){return e.key.endsWith("/")}function S(e,t,r){if(!t.didDrop())return;const n=t.getDropResult(),o=[],i=[];e.browserProps.selection.forEach(e=>{"/"===e[e.length-1]?o.push(e):i.push(e)}),e.browserProps.openFolder(n.path),o.forEach(t=>{const r=t,o=r.split("/"),i=o[o.length-2],a=`${n.path}${i}/`;a.substr(0,r.length)!==r&&a!==r&&e.browserProps.moveFolder&&e.browserProps.moveFolder(r,a)}),i.forEach(t=>{const r=t,o=r.split("/"),i=o[o.length-1],a=`${n.path}${i}`;a!==r&&e.browserProps.moveFile&&e.browserProps.moveFile(r,a)})}const N={Archive:["zip","rar","7z"],Audio:["mp3","ogg","wav","aac"],Excel:["xls","xlsx"],Image:["jpg","jpeg","png","bmp"],PDF:["pdf"],PowerPoint:["ppt","pptx"],Text:["txt"],Video:["mp4","flv","avi","wmv","mov"],Word:["doc","docx"],Code:["js"]},j={};for(const[e,t]of Object.entries(N))for(const r of t)j[r]=e;var T=Object.defineProperty,A=(e,t,r)=>(((e,t,r)=>{t in e?T(e,t,{enumerable:!0,configurable:!0,writable:!0,value:r}):e[t]=r})(e,"symbol"!=typeof t?t+"":t,r),r);class x extends m.a.Component{constructor(){super(...arguments),A(this,"state",{newName:this.getName()}),A(this,"handleFileClick",e=>{e&&e.preventDefault(),this.props.browserProps.preview({url:this.props.url,name:this.getName(),key:this.props.fileKey,extension:this.getExtension()})}),A(this,"handleItemClick",e=>{e.stopPropagation(),this.props.browserProps.select(this.props.fileKey,"file",e.ctrlKey||e.metaKey,e.shiftKey)}),A(this,"handleItemDoubleClick",e=>{e.stopPropagation(),this.handleFileClick()}),A(this,"handleRenameClick",e=>{this.props.browserProps.renameFile&&this.props.browserProps.beginAction("rename",this.props.fileKey)}),A(this,"handleNewNameChange",e=>{const t=e.target.value;this.setState({newName:t})}),A(this,"handleRenameSubmit",e=>{if(e&&e.preventDefault(),!this.props.browserProps.renameFile)return;const t=this.state.newName.trim();if(0===t.length)return;if(["/","\\"].some(e=>-1!==t.indexOf(e)))return;let r=t;const n=this.props.fileKey.lastIndexOf("/");-1!==n&&(r=`${this.props.fileKey.substr(0,n)}/${t}`),this.props.browserProps.renameFile(this.props.fileKey,r)}),A(this,"handleDeleteClick",e=>{this.props.browserProps.deleteFile&&this.props.browserProps.beginAction("delete",this.props.fileKey)}),A(this,"handleDeleteSubmit",e=>{e.preventDefault(),this.props.browserProps.deleteFile&&this.props.browserProps.deleteFile(this.props.browserProps.actionTargets)}),A(this,"handleCancelEdit",e=>{this.props.browserProps.endAction()})}selectFileNameFromRef(e){if(e){const t=e.value,r=t.lastIndexOf(".");e.setSelectionRange(0,r||t.length),e.focus()}}getName(){let e=this.props.newKey||this.props.fileKey;const t=e.lastIndexOf("/");return-1!==t&&(e=e.substr(t+1)),e}getExtension(){const e=this.props.fileKey.split(".");return e[e.length-1].toLowerCase().trim()}getFileType(){return j[this.getExtension()]||"File"}connectDND(e){const t=this.props.isDragging||this.props.action;return"function"!=typeof this.props.browserProps.moveFile||t||this.props.isRenaming||(e=this.props.connectDragSource(e)),"function"!=typeof this.props.browserProps.createFiles&&"function"!=typeof this.props.browserProps.moveFile&&"function"!=typeof this.props.browserProps.moveFolder||(e=this.props.connectDropTarget(e)),e}}A(x,"propTypes",{fileKey:u.a.string,url:u.a.string,newKey:u.a.string,isRenaming:u.a.bool,connectDragSource:u.a.func,connectDropTarget:u.a.func,isDragging:u.a.bool,action:u.a.string,browserProps:u.a.shape({icons:u.a.object,select:u.a.func,beginAction:u.a.func,endAction:u.a.func,preview:u.a.func,createFiles:u.a.func,moveFile:u.a.func,moveFolder:u.a.func,renameFile:u.a.func,deleteFile:u.a.func})});const M={dragSource:{beginDrag:e=>(e.browserProps.selection.length&&e.browserProps.selection.includes(e.fileKey)||e.browserProps.select(e.fileKey,"file"),{key:e.fileKey}),endDrag(e,t,r){S(e,t)}},dragCollect:function(e,t){return{connectDragPreview:e.dragPreview(),connectDragSource:e.dragSource(),isDragging:t.isDragging()}},targetSource:{drop(e,t){if(t.didDrop())return;const r=e.newKey||e.fileKey,n=r.lastIndexOf("/"),o=-1!==n?r.substr(0,n+1):"",i=t.getItem();return i.files&&e.browserProps.createFiles&&e.browserProps.createFiles(i.files,o),{path:o}}},targetCollect:function(e,t){return{connectDropTarget:e.dropTarget(),isOver:t.isOver({shallow:!0})}}};var K,I,B,L=x,q=Object.defineProperty;class _ extends m.a.Component{handleHeaderClick(e){this.props.select(this.props.fileKey)}render(){const e=m.a.createElement("tr",{className:O()("folder",{dragover:this.props.isOver,selected:this.props.isSelected})},m.a.createElement("th",null,"Fájl"),m.a.createElement("th",{className:"size"},"Méret"),m.a.createElement("th",{className:"modified"},"Módosítva"));return"function"==typeof this.props.browserProps.createFiles||"function"==typeof this.props.browserProps.moveFile||"function"==typeof this.props.browserProps.moveFolder?this.props.connectDropTarget(e):e}}K=_,I="propTypes",B={select:u.a.func,fileKey:u.a.string,connectDropTarget:u.a.func,isOver:u.a.bool,isSelected:u.a.func,browserProps:u.a.shape({createFiles:u.a.func,moveFolder:u.a.func,moveFile:u.a.func})},((e,t,r)=>{t in e?q(e,t,{enumerable:!0,configurable:!0,writable:!0,value:r}):e[t]=r})(K,"symbol"!=typeof I?I+"":I,B);var z=Object(g.DropTarget)(["file","folder",F.NativeTypes.FILE],M.targetSource,M.targetCollect)(_),W=r(2),$=r(6),G=r.n($);function H(e){if(e>1024){const t=e/1024;if(t>1024){return function(e,t){if(e=parseFloat(e),isNaN(e))return parseFloat("0").toFixed(t);{const r=Math.pow(10,t);return(e=(Math.round(e*r)/r).toFixed(t)).toString()}}(t/1024,2)+" MB"}return Math.round(t)+" kB"}return e+" B"}var V=r(7),U=Object.defineProperty,Y=Object.getOwnPropertySymbols,J=Object.prototype.hasOwnProperty,Q=Object.prototype.propertyIsEnumerable,X=(e,t,r)=>t in e?U(e,t,{enumerable:!0,configurable:!0,writable:!0,value:r}):e[t]=r;class Z extends L{render(){const{thumbnail_url:e,action:t,url:r,isDragging:n,isRenaming:o,isSelected:i,isSelectable:a,isOver:l,isDeleting:s,showName:c,showSize:d,showModified:p,browserProps:h,connectDragPreview:u}=this.props;let f;f=e?m.a.createElement("div",{className:"image",style:{backgroundImage:"url("+e+")"}}):h.icons[this.getFileType()]||h.icons.File;const g=n||t,F=h.confirmDeletionRenderer;let b,w,y;c&&(b=!g&&s&&1===h.selection.length?m.a.createElement(F,{handleDeleteSubmit:this.handleDeleteSubmit,handleFileClick:this.handleFileClick,url:r},this.getName()):!g&&o?m.a.createElement("form",{className:"renaming",onSubmit:this.handleRenameSubmit},m.a.createElement("input",{ref:this.selectFileNameFromRef,type:"text",value:this.state.newName,onChange:this.handleNewNameChange,onBlur:this.handleCancelEdit,autoFocus:!0})):m.a.createElement("a",{href:r,download:"download",onClick:this.handleFileClick},this.getName())),d&&(o||s||(w=m.a.createElement("span",{className:"size"},m.a.createElement("small",null,H(this.props.size))))),p&&(o||s||(y=m.a.createElement("span",{className:"modified"},"Módosítva: ",Object(W.formatDistanceToNow)(this.props.modified,{addSuffix:!0,locale:V.hu}))));let v={};a&&(v={onClick:this.handleItemClick});let D=m.a.createElement("li",((e,t)=>{for(var r in t||(t={}))J.call(t,r)&&X(e,r,t[r]);if(Y)for(var r of Y(t))Q.call(t,r)&&X(e,r,t[r]);return e})({className:O()("file",{pending:t,dragging:n,dragover:l,selected:i}),onDoubleClick:this.handleItemDoubleClick},v),m.a.createElement("div",{className:"item"},m.a.createElement("span",{className:"thumb"},f),m.a.createElement("span",{className:"name"},b),w,y));return"function"==typeof h.moveFile&&(D=u(D)),this.connectDND(D)}}((e,t,r)=>{X(e,"symbol"!=typeof t?t+"":t,r)})(Z,"defaultProps",{showName:!0,showSize:!0,showModified:!0,isSelectable:!0});var ee=G()(Object(g.DragSource)("file",M.dragSource,M.dragCollect),Object(g.DropTarget)(["file","folder",F.NativeTypes.FILE],M.targetSource,M.targetCollect))(Z),te=Object.defineProperty,re=Object.defineProperties,ne=Object.getOwnPropertyDescriptors,oe=Object.getOwnPropertySymbols,ie=Object.prototype.hasOwnProperty,ae=Object.prototype.propertyIsEnumerable,le=(e,t,r)=>t in e?te(e,t,{enumerable:!0,configurable:!0,writable:!0,value:r}):e[t]=r;class se extends m.a.Component{render(){return m.a.createElement(ee,((e,t)=>re(e,ne(t)))(((e,t)=>{for(var r in t||(t={}))ie.call(t,r)&&le(e,r,t[r]);if(oe)for(var r of oe(t))ae.call(t,r)&&le(e,r,t[r]);return e})({},this.props),{showName:!1,showSize:!1,showModified:!1,isSelectable:!1}))}}var ce=se;class de extends L{render(){const{isDragging:e,isDeleting:t,isRenaming:r,isOver:n,isSelected:o,action:i,url:a,browserProps:l,connectDragPreview:s,depth:c,size:d,modified:p}=this.props,h=l.icons[this.getFileType()]||l.icons.File,u=e||i,f=l.confirmDeletionRenderer;let g;g=!u&&t&&1===l.selection.length?m.a.createElement(f,{handleDeleteSubmit:this.handleDeleteSubmit,handleFileClick:this.handleFileClick,url:a},h,this.getName()):!u&&r?m.a.createElement("form",{className:"renaming",onSubmit:this.handleRenameSubmit},h,m.a.createElement("input",{ref:this.selectFileNameFromRef,type:"text",value:this.state.newName,onChange:this.handleNewNameChange,onBlur:this.handleCancelEdit,autoFocus:!0})):m.a.createElement("a",{href:a||"#",download:"download",onClick:this.handleFileClick},h,this.getName());let F=m.a.createElement("div",null,g);"function"==typeof l.moveFile&&(F=s(F));const b=m.a.createElement("tr",{className:O()("file",{pending:i,dragging:e,dragover:n,selected:o}),onClick:this.handleItemClick,onDoubleClick:this.handleItemDoubleClick},m.a.createElement("td",{className:"name"},m.a.createElement("div",{style:{paddingLeft:16*c+"px"}},F)),m.a.createElement("td",{className:"size"},H(d)),m.a.createElement("td",{className:"modified"},void 0===p?"-":Object(W.formatDistanceToNow)(p,{addSuffix:!0})));return this.connectDND(b)}}var pe=G()(Object(g.DragSource)("file",M.dragSource,M.dragCollect),Object(g.DropTarget)(["file","folder",F.NativeTypes.FILE],M.targetSource,M.targetCollect))(de),he=Object.defineProperty,ue=(e,t,r)=>(((e,t,r)=>{t in e?he(e,t,{enumerable:!0,configurable:!0,writable:!0,value:r}):e[t]=r})(e,"symbol"!=typeof t?t+"":t,r),r);class fe extends m.a.Component{constructor(){super(...arguments),ue(this,"state",{newName:this.props.isDraft?"New folder":this.getName()}),ue(this,"handleFolderClick",e=>{e.stopPropagation(),this.props.browserProps.select(this.props.fileKey,"folder",e.ctrlKey||e.metaKey,e.shiftKey)}),ue(this,"handleFolderDoubleClick",e=>{e.stopPropagation(),this.toggleFolder()}),ue(this,"handleRenameClick",e=>{this.props.browserProps.renameFolder&&this.props.browserProps.beginAction("rename",this.props.fileKey)}),ue(this,"handleNewNameChange",e=>{const t=e.target.value;this.setState({newName:t})}),ue(this,"handleRenameSubmit",e=>{if(e.preventDefault(),e.stopPropagation(),!this.props.browserProps.renameFolder&&!this.props.isDraft)return;const t=this.state.newName.trim();if(0===t.length)return;if(["/","\\"].some(e=>-1!==t.indexOf(e)))return;let r=this.props.fileKey.substr(0,this.props.fileKey.substr(0,this.props.fileKey.length-1).lastIndexOf("/"));r.length&&(r+="/"),r+=t,r+="/",this.props.isDraft?this.props.browserProps.createFolder(r):this.props.browserProps.renameFolder(this.props.fileKey,r)}),ue(this,"handleDeleteClick",e=>{this.props.browserProps.deleteFolder&&this.props.browserProps.beginAction("delete",this.props.fileKey)}),ue(this,"handleDeleteSubmit",e=>{e.preventDefault(),e.stopPropagation(),this.props.browserProps.deleteFolder&&this.props.browserProps.deleteFolder(this.props.browserProps.actionTargets)}),ue(this,"handleCancelEdit",e=>{this.props.browserProps.endAction()}),ue(this,"toggleFolder",()=>{this.props.browserProps.toggleFolder(this.props.fileKey)})}selectFolderNameFromRef(e){if(e){const t=e.value;e.setSelectionRange(0,t.length),e.focus()}}getName(){if(this.props.name)return this.props.name;const e=this.props.fileKey.split("/");return this.props.newName||e[e.length-2]}connectDND(e){const t=this.props.isDragging||this.props.action;return this.props.keyDerived&&("function"!=typeof this.props.browserProps.moveFolder||t||this.props.isRenaming||this.props.isDeleting||(e=this.props.connectDragSource(e)),"function"!=typeof this.props.browserProps.createFiles&&"function"!=typeof this.props.browserProps.moveFolder&&"function"!=typeof this.props.browserProps.moveFile||(e=this.props.connectDropTarget(e))),e}}ue(fe,"propTypes",{name:u.a.string,fileKey:u.a.string,newName:u.a.string,keyDerived:u.a.bool,isDraft:u.a.bool,isRenaming:u.a.bool,isDeleting:u.a.bool,connectDragSource:u.a.func,connectDropTarget:u.a.func,isDragging:u.a.bool,action:u.a.string,browserProps:u.a.shape({select:u.a.func,toggleFolder:u.a.func,beginAction:u.a.func,endAction:u.a.func,preview:u.a.func,createFiles:u.a.func,createFolder:u.a.func,moveFile:u.a.func,moveFolder:u.a.func,renameFolder:u.a.func,deleteFolder:u.a.func})});const me={dragSource:{beginDrag:e=>(e.browserProps.selection.length||e.browserProps.select(e.fileKey,"folder"),{key:e.fileKey}),endDrag(e,t,r){S(e,t)}},dragCollect:function(e,t){return{connectDragPreview:e.dragPreview(),connectDragSource:e.dragSource(),isDragging:t.isDragging()}}};var ge=fe,Fe=Object.defineProperty,be=Object.defineProperties,we=Object.getOwnPropertyDescriptors,ye=Object.getOwnPropertySymbols,ve=Object.prototype.hasOwnProperty,De=Object.prototype.propertyIsEnumerable,Ee=(e,t,r)=>t in e?Fe(e,t,{enumerable:!0,configurable:!0,writable:!0,value:r}):e[t]=r,Pe=(e,t)=>{for(var r in t||(t={}))ve.call(t,r)&&Ee(e,r,t[r]);if(ye)for(var r of ye(t))De.call(t,r)&&Ee(e,r,t[r]);return e},Ce=(e,t)=>be(e,we(t));class Re extends ge{render(){const{isOpen:e,isDragging:t,isDeleting:r,isRenaming:n,isDraft:o,isOver:i,isSelected:a,url:l,action:s,browserProps:c,depth:d,keyDerived:p,connectDragPreview:h}=this.props,u=c.icons[e?"FolderOpen":"Folder"],f=t||s,g=c.confirmDeletionRenderer;let F,b;if(F=!f&&r&&1===c.selection.length?m.a.createElement(g,{handleDeleteSubmit:this.handleDeleteSubmit,handleFileClick:this.handleFileClick,url:l},this.getName()):!f&&n||o?m.a.createElement("div",null,m.a.createElement("form",{className:"renaming",onSubmit:this.handleRenameSubmit},m.a.createElement("input",{type:"text",ref:this.selectFolderNameFromRef,value:this.state.newName,onChange:this.handleNewNameChange,onBlur:this.handleCancelEdit,autoFocus:!0}))):m.a.createElement("div",null,m.a.createElement("a",{onClick:this.toggleFolder},this.getName())),e&&c.nestChildren){b=[];for(let e=0;e<b.length;e++){const t=b[e],r=Ce(Pe({},c.getItemProps(t,c)),{depth:d+1});k(t)?b.push(m.a.createElement(c.folderRenderer,Pe(Ce(Pe(Pe({},t),r),{browserProps:c}),c.folderRendererProps))):b.push(m.a.createElement(c.fileRenderer,Pe(Ce(Pe(Pe({},t),r),{browserProps:c}),c.fileRendererProps)))}b=b.length?m.a.createElement("ul",{style:{padding:"0 8px",paddingLeft:"16px"}},b):m.a.createElement("p",null,"No items in this folder")}let w=m.a.createElement("li",{className:O()("folder",{expanded:e&&c.nestChildren,pending:s,dragging:t,dragover:i,selected:a}),onClick:this.handleFolderClick,onDoubleClick:this.handleFolderDoubleClick},m.a.createElement("div",{className:"item"},m.a.createElement("span",{className:"thumb"},u),m.a.createElement("span",{className:"name"},F)),b);return"function"==typeof c.moveFolder&&p&&(w=h(w)),this.connectDND(w)}}var Oe=G()(Object(g.DragSource)("folder",me.dragSource,me.dragCollect),Object(g.DropTarget)(["file","folder",F.NativeTypes.FILE],M.targetSource,M.targetCollect))(Re);class ke extends ge{render(){const{isOpen:e,isDragging:t,isDeleting:r,isRenaming:n,isDraft:o,isOver:i,isSelected:a,action:l,url:s,browserProps:c,connectDragPreview:d,depth:p}=this.props,h=c.icons[e?"FolderOpen":"Folder"],u=t||l,f=c.confirmDeletionRenderer;let g;g=!u&&r&&1===c.selection.length?m.a.createElement(f,{handleDeleteSubmit:this.handleDeleteSubmit,handleFileClick:this.handleFileClick,url:s},h,this.getName()):!u&&n||o?m.a.createElement("div",null,m.a.createElement("form",{className:"renaming",onSubmit:this.handleRenameSubmit},h,m.a.createElement("input",{type:"text",ref:this.selectFolderNameFromRef,value:this.state.newName,onChange:this.handleNewNameChange,onBlur:this.handleCancelEdit,autoFocus:!0}))):m.a.createElement("div",null,m.a.createElement("a",{onClick:this.toggleFolder},h,this.getName()));let F=m.a.createElement("div",null,g);"function"==typeof c.moveFile&&(F=d(F));const b=m.a.createElement("tr",{className:O()("folder",{pending:l,dragging:t,dragover:i,selected:a}),onClick:this.handleFolderClick,onDoubleClick:this.handleFolderDoubleClick},m.a.createElement("td",{className:"name"},m.a.createElement("div",{style:{paddingLeft:16*p+"px"}},F)),m.a.createElement("td",null),m.a.createElement("td",null));return this.connectDND(b)}}var Se=G()(Object(g.DragSource)("folder",me.dragSource,me.dragCollect),Object(g.DropTarget)(["file","folder",F.NativeTypes.FILE],M.targetSource,M.targetCollect))(ke);const Ne=e=>{const{children:t,handleDeleteSubmit:r,handleFileClick:n,url:o}=e;return m.a.createElement("form",{className:"deleting",onSubmit:r},m.a.createElement("a",{href:o,download:"download",onClick:n},t),m.a.createElement("div",null,m.a.createElement("button",{type:"submit"},"Confirm Deletion")))};Ne.propTypes={children:u.a.node,handleDeleteSubmit:u.a.func,handleFileClick:u.a.func,url:u.a.string},Ne.defaultProps={url:"#"};var je=Ne;const Te=e=>{const{handleDeleteSubmit:t}=e;return m.a.createElement("button",{className:"deleting",onClick:t},"Confirm Deletion")};Te.propTypes={handleDeleteSubmit:u.a.func};var Ae=Te,xe=Object.defineProperty,Me=Object.defineProperties,Ke=Object.getOwnPropertyDescriptors,Ie=Object.getOwnPropertySymbols,Be=Object.prototype.hasOwnProperty,Le=Object.prototype.propertyIsEnumerable,qe=(e,t,r)=>t in e?xe(e,t,{enumerable:!0,configurable:!0,writable:!0,value:r}):e[t]=r,_e=(e,t)=>{for(var r in t||(t={}))Be.call(t,r)&&qe(e,r,t[r]);if(Ie)for(var r of Ie(t))Le.call(t,r)&&qe(e,r,t[r]);return e},ze=(e,t)=>Me(e,Ke(t)),We=function(e,t){const r={contents:[],children:{}};return e.map(e=>{e.relativeKey=(e.newKey||e.key).substr(t.length);let n=r;const o=e.relativeKey.split("/");o.map((t,r)=>{if(r===o.length-1&&k(e))for(const t in e)n[t]=e[t];if(""===t)return;!k(e)&&r===o.length-1?n.contents.push(ze(_e({},e),{keyDerived:!0})):(t in n.children==!1&&(n.children[t]={contents:[],children:{}}),n=n.children[t])})}),e=function e(r,n){""!==n&&(n+="/");let o=[];for(const i in r.children)o.push(ze(_e({},r.children[i]),{contents:void 0,keyDerived:!0,key:t+n+i+"/",relativeKey:n+i+"/",children:e(r.children[i],n+i),size:0}));return o=o.concat(r.contents),o}(r,"")};var $e=Object.defineProperty,Ge=Object.defineProperties,He=Object.getOwnPropertyDescriptors,Ve=Object.getOwnPropertySymbols,Ue=Object.prototype.hasOwnProperty,Ye=Object.prototype.propertyIsEnumerable,Je=(e,t,r)=>t in e?$e(e,t,{enumerable:!0,configurable:!0,writable:!0,value:r}):e[t]=r,Qe=(e,t)=>{for(var r in t||(t={}))Ue.call(t,r)&&Je(e,r,t[r]);if(Ve)for(var r of Ve(t))Ye.call(t,r)&&Je(e,r,t[r]);return e},Xe=function(e,t){const r=function(){const e=[],t=new Date;return e.push({name:"Today",begins:Object(W.startOfToday)(),ends:Object(W.endOfToday)(),items:[]}),e.push({name:"Yesterday",begins:Object(W.startOfYesterday)(),ends:Object(W.endOfYesterday)(),items:[]}),e.push({name:"Earlier this Week",begins:Object(W.startOfWeek)(t),ends:Object(W.endOfWeek)(t),items:[]}),e.push({name:"Last Week",begins:Object(W.startOfWeek)(Object(W.addWeeks)(t,-1)),ends:Object(W.endOfWeek)(Object(W.addWeeks)(t,-1)),items:[]}),Object(W.getMonth)(e[e.length-1].begins)===Object(W.getMonth)(t)&&e.push({name:"Earlier this Month",begins:Object(W.startOfMonth)(t),ends:Object(W.endOfMonth)(t),items:[]}),e}();for(let t=0;t<e.length;t++){const o=e[t];if(k(o))continue;const i=(n=Qe({},o),Ge(n,He({keyDerived:!0})));let a=!1;const l=+i.modified;for(let e=0;e<r.length;e++){const t=r[e];if(l>+t.begins&&l<=+t.ends){t.items.push(i),a=!0;break}}if(!a){const e={name:Object(W.format)(i.modified,"MMMM yyyy"),begins:Object(W.startOfMonth)(i.modified),ends:Object(W.endOfMonth)(i.modified),items:[]};e.items.push(i),r.push(e)}}var n;const o=[];for(let e=0;e<r.length;e++){const t=r[e];t.items.length&&o.push({key:t.name.toLowerCase().replace(" ","_")+"/",name:t.name,children:t.items,size:0})}return o};const Ze=/(-?\d*\.?\d+)/g;function et(e,t){const r=String(e.name).split(Ze),n=String(t.name).split(Ze),o=Math.min(r.length,n.length);for(let e=0;e<o;e++){const t=parseFloat(r[e])||r[e].toLowerCase(),o=parseFloat(n[e])||n[e].toLowerCase();if(t<o)return-1;if(t>o)return 1}return 0}function tt(e,t){return e.draft&&!t.draft?1:t.draft&&!e.draft?-1:et(e,t)}var rt=function(e){return function e(t){let r=[],n=[];for(let e=0;e<t.length;e++){const o=t[e],i=(o.newKey||o.key).split("/");o.children?(o.name||(o.name=i[i.length-2]),r.push(o)):(o.name||(o.name=i[i.length-1]),n.push(o))}n=n.sort(et),r=r.sort(tt);for(let t=0;t<r.length;t++){const n=r[t];n.children=e(n.children)}let o=[];return o=o.concat(r),o=o.concat(n),o}(e)};var nt=function(e){return function e(t){const r=[];let n=[];for(let e=0;e<t.length;e++){const o=t[e],i=(o.newKey||o.key).split("/");o.children?r.push(o):(o.name=i[i.length-1],n.push(o))}n=n.sort(W.compareAsc);for(let t=0;t<r.length;t++){const n=r[t];n.children=e(n.children)}let o=[];return o=o.concat(r),o=o.concat(n),o}(e)};const ot=e=>{const{selectedItems:t,isFolder:r,icons:n,nameFilter:o,canCreateFolder:i,onCreateFolder:a,canRenameFile:l,onRenameFile:s,canRenameFolder:c,onRenameFolder:d,canDeleteFile:p,onDeleteFile:h,canDeleteFolder:u,onDeleteFolder:f,canDownloadFile:g,onDownloadFile:F,canDownloadFolder:b,onDownloadFolder:w}=e;let y=[];if(t.length){const e=t.filter(e=>e.action);if(e.length===t.length&&1===[...new Set(e)].length){let t;switch(e[0].action){case"delete":t="Deleting ...";break;case"rename":t="Renaming ...";break;default:t="Moving ..."}y=m.a.createElement("div",{className:"item-actions"},n.Loading," ",t)}else{r&&i&&!o&&y.push(m.a.createElement("li",{key:"action-add-folder"},m.a.createElement("a",{onClick:a,href:"#",role:"button"},n.Folder," Add Subfolder")));const e=t.find(e=>!e.keyDerived);e||r||!l||1!==t.length?!e&&r&&c&&y.push(m.a.createElement("li",{key:"action-rename"},m.a.createElement("a",{onClick:d,href:"#",role:"button"},n.Rename," Rename"))):y.push(m.a.createElement("li",{key:"action-rename"},m.a.createElement("a",{onClick:s,href:"#",role:"button"},n.Rename," Rename"))),e||r||!p?!e&&r&&u&&y.push(m.a.createElement("li",{key:"action-delete"},m.a.createElement("a",{onClick:f,href:"#",role:"button"},n.Delete," Delete"))):y.push(m.a.createElement("li",{key:"action-delete"},m.a.createElement("a",{onClick:h,href:"#",role:"button"},n.Delete," Delete"))),(!r&&g||r&&b)&&y.push(m.a.createElement("li",{key:"action-download"},m.a.createElement("a",{onClick:r?w:F,href:"#",role:"button"},n.Download," Download"))),y=y.length?m.a.createElement("ul",{className:"item-actions"},y):m.a.createElement("div",{className:"item-actions"}," ")}}else i&&!o&&y.push(m.a.createElement("li",{key:"action-add-folder"},m.a.createElement("a",{onClick:a,href:"#",role:"button"},n.Folder," Add Folder"))),y=y.length?m.a.createElement("ul",{className:"item-actions"},y):m.a.createElement("div",{className:"item-actions"}," ");return y};ot.propTypes={selectedItems:u.a.arrayOf(u.a.object),isFolder:u.a.bool,icons:u.a.object,nameFilter:u.a.string,canCreateFolder:u.a.bool,onCreateFolder:u.a.func,canRenameFile:u.a.bool,onRenameFile:u.a.func,canRenameFolder:u.a.bool,onRenameFolder:u.a.func,canDeleteFile:u.a.bool,onDeleteFile:u.a.func,canDeleteFolder:u.a.bool,onDeleteFolder:u.a.func,canDownloadFile:u.a.bool,onDownloadFile:u.a.func,canDownloadFolder:u.a.bool,onDownloadFolder:u.a.func},ot.defaultProps={selectedItems:[],isFolder:!1,icons:{},nameFilter:"",canCreateFolder:!1,onCreateFolder:null,canRenameFile:!1,onRenameFile:null,canRenameFolder:!1,onRenameFolder:null,canDeleteFile:!1,onDeleteFile:null,canDeleteFolder:!1,onDeleteFolder:null,canDownloadFile:!1,onDownloadFile:null,canDownloadFolder:!1,onDownloadFolder:null};var it=ot,at=Object.defineProperty,lt=Object.defineProperties,st=Object.getOwnPropertyDescriptors,ct=Object.getOwnPropertySymbols,dt=Object.prototype.hasOwnProperty,pt=Object.prototype.propertyIsEnumerable,ht=(e,t,r)=>t in e?at(e,t,{enumerable:!0,configurable:!0,writable:!0,value:r}):e[t]=r,ut=(e,t)=>{for(var r in t||(t={}))dt.call(t,r)&&ht(e,r,t[r]);if(ct)for(var r of ct(t))pt.call(t,r)&&ht(e,r,t[r]);return e},ft=(e,t)=>lt(e,st(t)),mt=(e,t,r)=>(ht(e,"symbol"!=typeof t?t+"":t,r),r);const gt=/.*\/__new__[/]?$/gm;function Ft(e,t){return{key:"file-"+e.key,fileKey:e.key,isSelected:t.selection.includes(e.key),isOpen:e.key in t.openFolders||t.nameFilter,isRenaming:"rename"===t.activeAction&&t.actionTargets.includes(e.key),isDeleting:"delete"===t.activeAction&&t.actionTargets.includes(e.key),isDraft:!!e.draft}}class bt extends m.a.Component{constructor(){super(...arguments),mt(this,"state",{openFolders:{},selection:[],activeAction:null,actionTargets:[],nameFilter:"",searchResultsShown:20,previewFile:null,addFolder:null}),mt(this,"getFile",e=>{let t=!1;const r=this.props.files.find(r=>(r.key.startsWith(e)&&(t=!0),r.key===e));return r||(t?{key:e,modified:0,size:0,relativeKey:e}:void 0)}),mt(this,"selectFiles",e=>{console.log("select files",e);const t=[],r=[];e.map(e=>{const n=e.key.split("/"),o=[];n.map((e,i)=>{e&&(o.push(e),i!==n.length-1?(console.log("openFolder",o.join("/")),t.push(o.join("/"))):(console.log("newSelection",o.join("/")),r.includes(o.join("/"))||r.push({key:o.join("/")})))}),this.setState({openFolders:t,selection:r},()=>{console.log("selection set"),setTimeout(()=>{this.forceUpdate()},1e3)})})}),mt(this,"createFiles",(e,t)=>{this.setState(e=>{const r={selection:[]};return t&&(r.openFolders=ft(ut({},e.openFolders),{[t]:!0})),r},()=>{this.props.onCreateFiles(e,t)})}),mt(this,"createFolder",e=>{this.setState({activeAction:null,actionTargets:[],selection:[e]},()=>{this.props.onCreateFolder(e)})}),mt(this,"moveFile",(e,t)=>{this.setState({activeAction:null,actionTargets:[],selection:[t]},()=>{this.props.onMoveFile(e,t)})}),mt(this,"moveFolder",(e,t)=>{this.setState(r=>{const n={activeAction:null,actionTargets:[],selection:[t]};return e in r.openFolders&&(n.openFolders=ft(ut({},r.openFolders),{[t]:!0})),n},()=>{this.props.onMoveFolder(e,t)})}),mt(this,"renameFile",(e,t)=>{this.setState({activeAction:null,actionTargets:[],selection:[t]},()=>{this.props.onRenameFile(e,t)})}),mt(this,"renameFolder",(e,t)=>{this.setState(r=>{const n={activeAction:null,actionTargets:[]};return r.selection[0].substr(0,e.length)===e&&(n.selection=[r.selection[0].replace(e,t)]),e in r.openFolders&&(n.openFolders=ft(ut({},r.openFolders),{[t]:!0})),n},()=>{this.props.onRenameFolder(e,t)})}),mt(this,"deleteFile",e=>{this.setState({activeAction:null,actionTargets:[],selection:[]},()=>{this.props.onDeleteFile(e)})}),mt(this,"deleteFolder",e=>{this.setState(t=>{const r={activeAction:null,actionTargets:[],selection:[]};return e in t.openFolders&&(r.openFolders=ut({},t.openFolders),delete r.openFolders[e]),r},()=>{this.props.onDeleteFolder(e)})}),mt(this,"downloadFile",e=>{this.setState({activeAction:null,actionTargets:[]},()=>{this.props.onDownloadFile(e)})}),mt(this,"downloadFolder",e=>{this.setState({activeAction:null,actionTargets:[]},()=>{this.props.onDownloadFolder(e)})}),mt(this,"beginAction",(e,t)=>{this.setState({activeAction:e,actionTargets:t||[]})}),mt(this,"endAction",()=>{this.state.selection&&this.state.selection.length>0&&this.state.selection.filter(e=>e.match(gt)).length>0&&this.setState({selection:[]}),this.beginAction(null,null)}),mt(this,"select",(e,t,r,n)=>{const{actionTargets:o}=this.state,i=o.length&&!o.includes(e),a=this.getFile(e);let l=[e];if(r||n){const t=this.state.selection.indexOf(e);l=-1!==t?[...this.state.selection.slice(0,t),...this.state.selection.slice(t+1)]:[...this.state.selection,e]}this.setState(e=>({selection:l,actionTargets:i?[]:o,activeAction:i?null:e.activeAction}),()=>{this.props.onSelect(a),"file"===t&&this.props.onSelectFile(a),"folder"===t&&this.props.onSelectFolder(a)})}),mt(this,"preview",e=>{this.state.previewFile&&this.state.previewFile.key!==e.key&&this.closeDetail(),this.setState({previewFile:e},()=>{this.props.onPreviewOpen(e)})}),mt(this,"closeDetail",()=>{this.setState({previewFile:null},()=>{this.props.onPreviewClose(this.state.previewFile)})}),mt(this,"handleShowMoreClick",e=>{e.preventDefault(),this.setState(e=>({searchResultsShown:e.searchResultsShown+20}))}),mt(this,"toggleFolder",e=>{const t=e in this.state.openFolders;this.setState(r=>{const n={openFolders:ut({},r.openFolders)};return t?delete n.openFolders[e]:n.openFolders[e]=!0,n},()=>{const r=t?"onFolderClose":"onFolderOpen";this.props[r](this.getFile(e),this.getBrowserProps())})}),mt(this,"openFolder",e=>{this.setState(t=>({openFolders:ft(ut({},t.openFolders),{[e]:!0})}),()=>{this.props.onFolderOpen(this.getFile(e),this.getBrowserProps())})}),mt(this,"handleGlobalClick",e=>{!(!this.browserRef||!this.browserRef.contains(e.target))||this.setState({selection:[],actionTargets:[],activeAction:null})}),mt(this,"handleActionBarRenameClick",e=>{e.preventDefault(),this.beginAction("rename",this.state.selection)}),mt(this,"handleActionBarDeleteClick",e=>{e.preventDefault(),this.beginAction("delete",this.state.selection)}),mt(this,"handleActionBarAddFolderClick",e=>{e.preventDefault(),"createFolder"!==this.state.activeAction&&this.setState(e=>{let t="";e.selection&&e.selection.length>0&&(t+=e.selection,"/"!==t.substr(t.length-1,t.length)&&(t+="/")),"__new__/"===t||t.endsWith("/__new__/")||(t+="__new__/");const r={actionTargets:[t],activeAction:"createFolder",selection:[t]};return e.selection&&e.selection.length>0&&(r.openFolders=ft(ut({},e.openFolders),{[this.state.selection]:!0})),r})}),mt(this,"handleActionBarDownloadClick",e=>{e.preventDefault();const t=this.getFiles(),r=this.getSelectedItems(t);1===r.length&&k(r[0])?this.downloadFolder(this.state.selection):this.downloadFile(this.state.selection)}),mt(this,"updateFilter",e=>{this.setState({nameFilter:e,searchResultsShown:20})}),mt(this,"handleMultipleDeleteSubmit",()=>{console.log(this),this.deleteFolder(this.state.selection.filter(e=>"/"===e[e.length-1])),this.deleteFile(this.state.selection.filter(e=>"/"!==e[e.length-1]))})}componentDidMount(){console.log("browser did mount",this.props),"table"===this.props.renderStyle&&this.props.nestChildren&&console.warn("Invalid settings: Cannot nest table children in file browser"),this.props.files.length&&this.props.selectedFiles.length&&this.selectFiles(this.props.selectedFiles),window.addEventListener("click",this.handleGlobalClick)}componentWillUnmount(){window.removeEventListener("click",this.handleGlobalClick)}getBrowserProps(){return{nestChildren:this.props.nestChildren,fileRenderer:this.props.fileRenderer,fileRendererProps:this.props.fileRendererProps,folderRenderer:this.props.folderRenderer,folderRendererProps:this.props.folderRendererProps,confirmDeletionRenderer:this.props.confirmDeletionRenderer,confirmMultipleDeletionRenderer:this.props.confirmMultipleDeletionRenderer,icons:this.props.icons,openFolders:this.state.openFolders,nameFilter:this.state.nameFilter,selection:this.state.selection,activeAction:this.state.activeAction,actionTargets:this.state.actionTargets,select:this.select,openFolder:this.openFolder,toggleFolder:this.toggleFolder,beginAction:this.beginAction,endAction:this.endAction,preview:this.preview,createFiles:this.props.onCreateFiles?this.createFiles:void 0,createFolder:this.props.onCreateFolder?this.createFolder:void 0,renameFile:this.props.onRenameFile?this.renameFile:void 0,renameFolder:this.props.onRenameFolder?this.renameFolder:void 0,moveFile:this.props.onMoveFile?this.moveFile:void 0,moveFolder:this.props.onMoveFolder?this.moveFolder:void 0,deleteFile:this.props.onDeleteFile?this.deleteFile:void 0,deleteFolder:this.props.onDeleteFolder?this.deleteFolder:void 0,getItemProps:Ft}}renderActionBar(e){const{icons:t,canFilter:r,filterRendererProps:n,filterRenderer:o,actionRenderer:i,onCreateFolder:a,onRenameFile:l,onRenameFolder:s,onDeleteFile:c,onDeleteFolder:d,onDownloadFile:p,onDownloadFolder:h}=this.props,u=this.getBrowserProps(),f=1===e.length&&k(e[0]);let g;r&&(g=m.a.createElement(o,ut({value:this.state.nameFilter,updateFilter:this.updateFilter},n)));const F=m.a.createElement(i,{browserProps:u,selectedItems:e,isFolder:f,icons:t,nameFilter:this.state.nameFilter,canCreateFolder:"function"==typeof a,onCreateFolder:this.handleActionBarAddFolderClick,canRenameFile:"function"==typeof l,onRenameFile:this.handleActionBarRenameClick,canRenameFolder:"function"==typeof s,onRenameFolder:this.handleActionBarRenameClick,canDeleteFile:"function"==typeof c,onDeleteFile:this.handleActionBarDeleteClick,canDeleteFolder:"function"==typeof d,onDeleteFolder:this.handleActionBarDeleteClick,canDownloadFile:"function"==typeof p,onDownloadFile:this.handleActionBarDownloadClick,canDownloadFolder:"function"==typeof h,onDownloadFolder:this.handleActionBarDownloadClick});return m.a.createElement("div",{className:"action-bar"},g,F)}renderFiles(e,t){const{fileRenderer:r,fileRendererProps:n,folderRenderer:o,folderRendererProps:i}=this.props,a=this.getBrowserProps();let l=[];return e.map(e=>{const s=ft(ut({},a.getItemProps(e,a)),{depth:this.state.nameFilter?0:t});k(e)?(!this.props.showFoldersOnFilter&&this.state.nameFilter||l.push(m.a.createElement(o,ut(ft(ut(ut({},e),s),{browserProps:a}),i))),(this.state.nameFilter||s.isOpen&&!a.nestChildren)&&(l=l.concat(this.renderFiles(e.children,t+1)))):l.push(m.a.createElement(r,ut(ft(ut(ut({},e),s),{browserProps:a}),n)))}),l}getFiles(){let e=this.props.files.concat([]);if("createFolder"===this.state.activeAction&&e.push({key:this.state.actionTargets[0],size:0,draft:!0}),this.state.nameFilter){const t=[],r=this.state.nameFilter.toLowerCase().split(" ");e.map(e=>{let n=!1;r.map(t=>{-1===e.key.toLowerCase().trim().indexOf(t)&&(n=!0)}),n||t.push(e)}),e=t}if("function"==typeof this.props.group)e=this.props.group(e,"");else{const t=[];e.map(e=>{k(e)||t.push(e)}),e=t}return"function"==typeof this.props.sort&&(e=this.props.sort(e)),e}getSelectedItems(e){const{selection:t}=this.state,r=[],n=e=>{t.includes(e.key)&&r.push(e),e.children&&e.children.map(n)};return e.map(n),r}render(){const e={browserProps:this.getBrowserProps(),fileKey:"",fileCount:this.props.files.length};let t;console.log("browser render");const r=this.getFiles(),n=this.getSelectedItems(r);let o,i=this.renderFiles(r,0);switch(this.props.renderStyle){case"table":if(i.length){if(this.state.nameFilter){const e=i.length;i=i.slice(0,this.state.searchResultsShown),e>i.length&&i.push(m.a.createElement("tr",{key:"show-more"},m.a.createElement("td",{colSpan:100},m.a.createElement("a",{onClick:this.handleShowMoreClick,href:"#"},this.props.showMoreResults))))}}else i=this.state.nameFilter?m.a.createElement("tr",null,m.a.createElement("td",{colSpan:100},this.props.noMatchingFilesMessage(this.state.nameFilter))):m.a.createElement("tr",null,m.a.createElement("td",{colSpan:100},this.props.noFilesMessage));this.props.headerRenderer&&(o=m.a.createElement("thead",null,m.a.createElement(this.props.headerRenderer,ut(ut({},e),this.props.headerRendererProps)))),t=m.a.createElement("table",{cellSpacing:"0",cellPadding:"0"},o,m.a.createElement("tbody",null,i));break;case"list":if(i.length){let e;if(this.state.nameFilter){const t=i.length;i=i.slice(0,this.state.searchResultsShown),t>i.length&&(e=m.a.createElement("a",{onClick:this.handleShowMoreClick,href:"#"},this.props.showMoreResults))}i=m.a.createElement("div",null,m.a.createElement("ul",null,i),e)}else i=this.state.nameFilter?m.a.createElement("p",{className:"empty"},this.props.noMatchingFilesMessage(this.state.nameFilter)):m.a.createElement("p",{className:"empty"},this.props.noFilesMessage);this.props.headerRenderer&&(o=m.a.createElement(this.props.headerRenderer,ut(ut({},e),this.props.headerRendererProps))),t=m.a.createElement("div",null,o,i)}const a=this.props.confirmMultipleDeletionRenderer;return m.a.createElement("div",{className:"rendered-react-keyed-file-browser"},this.props.actions,m.a.createElement("div",{className:"rendered-file-browser",ref:e=>{this.browserRef=e}},this.props.showActionBar&&this.renderActionBar(n),"delete"===this.state.activeAction&&this.state.selection.length>1&&m.a.createElement(a,{handleDeleteSubmit:this.handleMultipleDeleteSubmit}),m.a.createElement("div",{className:"files"},t)),null!==this.state.previewFile&&m.a.createElement(this.props.detailRenderer,ut({file:this.state.previewFile,close:this.closeDetail},this.props.detailRendererProps)))}}mt(bt,"propTypes",{files:u.a.arrayOf(u.a.shape({key:u.a.string.isRequired,modified:u.a.number,size:u.a.number})).isRequired,actions:u.a.node,showActionBar:u.a.bool.isRequired,canFilter:u.a.bool.isRequired,showFoldersOnFilter:u.a.bool,noFilesMessage:u.a.oneOfType([u.a.string,u.a.object]),noMatchingFilesMessage:u.a.func,showMoreResults:u.a.oneOfType([u.a.string,u.a.object]),group:u.a.func.isRequired,sort:u.a.func.isRequired,icons:u.a.shape({Folder:u.a.element,FolderOpen:u.a.element,File:u.a.element,PDF:u.a.element,Image:u.a.element,Delete:u.a.element,Rename:u.a.element,Loading:u.a.element,Download:u.a.element}),nestChildren:u.a.bool.isRequired,renderStyle:u.a.oneOf(["list","table"]).isRequired,startOpen:u.a.bool.isRequired,headerRenderer:u.a.func,headerRendererProps:u.a.object,filterRenderer:u.a.func,filterRendererProps:u.a.object,fileRenderer:u.a.func,fileRendererProps:u.a.object,folderRenderer:u.a.func,folderRendererProps:u.a.object,detailRenderer:u.a.func,detailRendererProps:u.a.object,actionRenderer:u.a.func,confirmDeletionRenderer:u.a.func,confirmMultipleDeletionRenderer:u.a.func,selectedFiles:u.a.arrayOf(u.a.shape({key:u.a.string.isRequired})),onCreateFiles:u.a.oneOfType([u.a.func,u.a.bool]),onCreateFolder:u.a.oneOfType([u.a.func,u.a.bool]),onMoveFile:u.a.oneOfType([u.a.func,u.a.bool]),onMoveFolder:u.a.oneOfType([u.a.func,u.a.bool]),onRenameFile:u.a.oneOfType([u.a.func,u.a.bool]),onRenameFolder:u.a.oneOfType([u.a.func,u.a.bool]),onDeleteFile:u.a.oneOfType([u.a.func,u.a.bool]),onDeleteFolder:u.a.oneOfType([u.a.func,u.a.bool]),onDownloadFile:u.a.oneOfType([u.a.func,u.a.bool]),onDownloadFolder:u.a.oneOfType([u.a.func,u.a.bool]),onSelect:u.a.func,onSelectFile:u.a.func,onSelectFolder:u.a.func,onPreviewOpen:u.a.func,onPreviewClose:u.a.func,onFolderOpen:u.a.func,onFolderClose:u.a.func}),mt(bt,"defaultProps",{showActionBar:!0,canFilter:!0,showFoldersOnFilter:!1,noFilesMessage:"Nincsenek fájlok",noMatchingFilesMessage:e=>`Nincs ilyen fájl "${e}".`,showMoreResults:"Több eredmény mutatása",group:We,sort:rt,nestChildren:!1,renderStyle:"table",startOpen:!1,headerRenderer:z,headerRendererProps:{},filterRenderer:C,filterRendererProps:{},fileRenderer:pe,fileRendererProps:{},folderRenderer:Se,folderRendererProps:{},detailRenderer:v,detailRendererProps:{},actionRenderer:it,confirmDeletionRenderer:je,confirmMultipleDeletionRenderer:Ae,selectedFiles:[],icons:{},onSelect:e=>{},onSelectFile:e=>{},onSelectFolder:e=>{},onPreviewOpen:e=>{},onPreviewClose:e=>{},onFolderOpen:e=>{},onFolderClose:e=>{}});class wt extends f.Component{render(){return m.a.createElement(g.DndProvider,{backend:F.HTML5Backend},m.a.createElement(bt,ut({},this.props)))}}var yt=wt;const vt=e=>{const t=4===e?"fa":"fas",r=4===e?["FontAwesome",'"FontAwesome"']:['"Font Awesome 5 Free"','"Font Awesome 5 Pro"'];let n=!1;const o=document.createElement("span");o.className=t,o.style.display="none",document.body.insertBefore(o,document.body.firstChild);var i,a;return r.includes((i=o,a="font-family",window.getComputedStyle(i,null).getPropertyValue(a)))?n=!0:console.warn(`Font Awesome ${e} was not detected but Font Awesome ${e} icons have been requested for \`react-object-list\``),document.body.removeChild(o),n};var Dt=(e=4)=>{switch(e){case 4:return vt(4),{File:m.a.createElement("i",{className:"fa fa-file-o","aria-hidden":"true"}),Image:m.a.createElement("i",{className:"fa fa-file-image-o","aria-hidden":"true"}),Video:m.a.createElement("i",{className:"fa fa-file-video-o","aria-hidden":"true"}),Audio:m.a.createElement("i",{className:"fa fa-file-audio-o","aria-hidden":"true"}),Archive:m.a.createElement("i",{className:"fa fa-file-archive-o","aria-hidden":"true"}),Word:m.a.createElement("i",{className:"fa fa-file-word-o","aria-hidden":"true"}),Excel:m.a.createElement("i",{className:"fa fa-file-excel-o","aria-hidden":"true"}),PowerPoint:m.a.createElement("i",{className:"fa fa-file-powerpoint-o","aria-hidden":"true"}),Text:m.a.createElement("i",{className:"fa fa-file-text-o","aria-hidden":"true"}),PDF:m.a.createElement("i",{className:"fa fa-file-pdf-o","aria-hidden":"true"}),Rename:m.a.createElement("i",{className:"fa fa-i-cursor","aria-hidden":"true"}),Folder:m.a.createElement("i",{className:"fa fa-folder-o","aria-hidden":"true"}),FolderOpen:m.a.createElement("i",{className:"fa fa-folder-open-o","aria-hidden":"true"}),Delete:m.a.createElement("i",{className:"fa fa-trash-o","aria-hidden":"true"}),Loading:m.a.createElement("i",{className:"fa fa-circle-o-notch fa-spin","aria-hidden":"true"}),Download:m.a.createElement("i",{className:"fa fa-download","aria-hidden":"true"})};case 5:return vt(5),{File:m.a.createElement("i",{className:"far fa-file","aria-hidden":"true"}),Image:m.a.createElement("i",{className:"far fa-file-image","aria-hidden":"true"}),Video:m.a.createElement("i",{className:"far fa-file-video","aria-hidden":"true"}),Audio:m.a.createElement("i",{className:"far fa-file-audio","aria-hidden":"true"}),Archive:m.a.createElement("i",{className:"far fa-file-archive","aria-hidden":"true"}),Word:m.a.createElement("i",{className:"far fa-file-word","aria-hidden":"true"}),Excel:m.a.createElement("i",{className:"far fa-file-excel","aria-hidden":"true"}),PowerPoint:m.a.createElement("i",{className:"far fa-file-powerpoint","aria-hidden":"true"}),Text:m.a.createElement("i",{className:"far fa-file-alt","aria-hidden":"true"}),PDF:m.a.createElement("i",{className:"far fa-file-pdf","aria-hidden":"true"}),Rename:m.a.createElement("i",{className:"fas fa-i-cursor","aria-hidden":"true"}),Folder:m.a.createElement("i",{className:"far fa-folder","aria-hidden":"true"}),FolderOpen:m.a.createElement("i",{className:"far fa-folder-open","aria-hidden":"true"}),Delete:m.a.createElement("i",{className:"far fa-trash-alt","aria-hidden":"true"}),Loading:m.a.createElement("i",{className:"fas fa-circle-notch fa-spin","aria-hidden":"true"}),Download:m.a.createElement("i",{className:"fas fa-download","aria-hidden":"true"})};default:console.warn("Could not find config for version "+e,"Accepted versions are: 4, 5","Please make an issue in `react-object-list` to fix this.")}};t.default=yt}])}));
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else if(typeof exports === 'object')
+		exports["react-keyed-file-browser"] = factory();
+	else
+		root["react-keyed-file-browser"] = factory();
+})(window, function() {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 8);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports) {
+
+module.exports = require("prop-types");
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports) {
+
+module.exports = require("react");
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
+module.exports = require("date-fns");
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+module.exports = require("react-dnd");
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+module.exports = require("react-dnd-html5-backend");
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports) {
+
+module.exports = require("classnames");
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+
+module.exports = require("lodash/flow");
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports) {
+
+module.exports = require("date-fns/locale");
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+// ESM COMPAT FLAG
+__webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "RawFileBrowser", function() { return /* reexport */ browser_RawFileBrowser; });
+__webpack_require__.d(__webpack_exports__, "BaseFile", function() { return /* reexport */ base_file; });
+__webpack_require__.d(__webpack_exports__, "BaseFileConnectors", function() { return /* reexport */ BaseFileConnectors; });
+__webpack_require__.d(__webpack_exports__, "BaseFolder", function() { return /* reexport */ base_folder; });
+__webpack_require__.d(__webpack_exports__, "BaseFolderConnectors", function() { return /* reexport */ BaseFolderConnectors; });
+__webpack_require__.d(__webpack_exports__, "Headers", function() { return /* reexport */ headers_namespaceObject; });
+__webpack_require__.d(__webpack_exports__, "FileRenderers", function() { return /* reexport */ files_namespaceObject; });
+__webpack_require__.d(__webpack_exports__, "FolderRenderers", function() { return /* reexport */ folders_namespaceObject; });
+__webpack_require__.d(__webpack_exports__, "Details", function() { return /* reexport */ details_namespaceObject; });
+__webpack_require__.d(__webpack_exports__, "Filters", function() { return /* reexport */ filters_namespaceObject; });
+__webpack_require__.d(__webpack_exports__, "Groupers", function() { return /* reexport */ groupers_namespaceObject; });
+__webpack_require__.d(__webpack_exports__, "Sorters", function() { return /* reexport */ sorters_namespaceObject; });
+__webpack_require__.d(__webpack_exports__, "Icons", function() { return /* reexport */ icons_namespaceObject; });
+__webpack_require__.d(__webpack_exports__, "Utils", function() { return /* reexport */ utils_namespaceObject; });
+
+// NAMESPACE OBJECT: ./src/details/index.js
+var details_namespaceObject = {};
+__webpack_require__.r(details_namespaceObject);
+__webpack_require__.d(details_namespaceObject, "DefaultDetail", function() { return details_default; });
+
+// NAMESPACE OBJECT: ./src/filters/index.js
+var filters_namespaceObject = {};
+__webpack_require__.r(filters_namespaceObject);
+__webpack_require__.d(filters_namespaceObject, "DefaultFilter", function() { return filters_default; });
+
+// NAMESPACE OBJECT: ./src/utils.js
+var utils_namespaceObject = {};
+__webpack_require__.r(utils_namespaceObject);
+__webpack_require__.d(utils_namespaceObject, "isFolder", function() { return utils_isFolder; });
+__webpack_require__.d(utils_namespaceObject, "moveFilesAndFolders", function() { return moveFilesAndFolders; });
+
+// NAMESPACE OBJECT: ./src/headers/index.js
+var headers_namespaceObject = {};
+__webpack_require__.r(headers_namespaceObject);
+__webpack_require__.d(headers_namespaceObject, "TableHeader", function() { return table; });
+
+// NAMESPACE OBJECT: ./src/files/index.js
+var files_namespaceObject = {};
+__webpack_require__.r(files_namespaceObject);
+__webpack_require__.d(files_namespaceObject, "ListThumbnailFile", function() { return list_thumbnail; });
+__webpack_require__.d(files_namespaceObject, "SimpleListThumbnailFile", function() { return simple_list_thumbnail; });
+__webpack_require__.d(files_namespaceObject, "TableFile", function() { return files_table; });
+__webpack_require__.d(files_namespaceObject, "RawListThumbnailFile", function() { return list_thumbnail_RawListThumbnailFile; });
+__webpack_require__.d(files_namespaceObject, "RawTableFile", function() { return table_RawTableFile; });
+
+// NAMESPACE OBJECT: ./src/folders/index.js
+var folders_namespaceObject = {};
+__webpack_require__.r(folders_namespaceObject);
+__webpack_require__.d(folders_namespaceObject, "ListThumbnailFolder", function() { return folders_list_thumbnail; });
+__webpack_require__.d(folders_namespaceObject, "TableFolder", function() { return folders_table; });
+__webpack_require__.d(folders_namespaceObject, "RawListThumbnailFolder", function() { return list_thumbnail_RawListThumbnailFolder; });
+__webpack_require__.d(folders_namespaceObject, "RawTableFolder", function() { return table_RawTableFolder; });
+
+// NAMESPACE OBJECT: ./src/groupers/index.js
+var groupers_namespaceObject = {};
+__webpack_require__.r(groupers_namespaceObject);
+__webpack_require__.d(groupers_namespaceObject, "GroupByFolder", function() { return by_folder; });
+__webpack_require__.d(groupers_namespaceObject, "GroupByModifiedRelative", function() { return by_modified; });
+
+// NAMESPACE OBJECT: ./src/sorters/index.js
+var sorters_namespaceObject = {};
+__webpack_require__.r(sorters_namespaceObject);
+__webpack_require__.d(sorters_namespaceObject, "SortByName", function() { return by_name; });
+__webpack_require__.d(sorters_namespaceObject, "SortByModified", function() { return sorters_by_modified; });
+
+// NAMESPACE OBJECT: ./src/icons/index.js
+var icons_namespaceObject = {};
+__webpack_require__.r(icons_namespaceObject);
+__webpack_require__.d(icons_namespaceObject, "FontAwesome", function() { return FontAwesome; });
+
+// EXTERNAL MODULE: external "prop-types"
+var external_prop_types_ = __webpack_require__(0);
+var external_prop_types_default = /*#__PURE__*/__webpack_require__.n(external_prop_types_);
+
+// EXTERNAL MODULE: external "react"
+var external_react_ = __webpack_require__(1);
+var external_react_default = /*#__PURE__*/__webpack_require__.n(external_react_);
+
+// EXTERNAL MODULE: external "react-dnd"
+var external_react_dnd_ = __webpack_require__(3);
+
+// EXTERNAL MODULE: external "react-dnd-html5-backend"
+var external_react_dnd_html5_backend_ = __webpack_require__(4);
+
+// CONCATENATED MODULE: ./src/details/default.js
+var __defProp = Object.defineProperty;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, {enumerable: true, configurable: true, writable: true, value}) : obj[key] = value;
+var __publicField = (obj, key, value) => {
+  __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
+  return value;
+};
+
+
+class default_Detail extends external_react_default.a.Component {
+  constructor() {
+    super(...arguments);
+    __publicField(this, "handleCloseClick", (event) => {
+      if (event) {
+        event.preventDefault();
+      }
+      this.props.close();
+    });
+  }
+  render() {
+    let name = this.props.file.key.split("/");
+    name = name.length ? name[name.length - 1] : "";
+    return /* @__PURE__ */ external_react_default.a.createElement("div", null, /* @__PURE__ */ external_react_default.a.createElement("h2", null, "Item Detail"), /* @__PURE__ */ external_react_default.a.createElement("dl", null, /* @__PURE__ */ external_react_default.a.createElement("dt", null, "Key"), /* @__PURE__ */ external_react_default.a.createElement("dd", null, this.props.file.key), /* @__PURE__ */ external_react_default.a.createElement("dt", null, "Name"), /* @__PURE__ */ external_react_default.a.createElement("dd", null, name)), /* @__PURE__ */ external_react_default.a.createElement("a", {
+      href: "#",
+      onClick: this.handleCloseClick
+    }, "Close"));
+  }
+}
+__publicField(default_Detail, "propTypes", {
+  file: external_prop_types_default.a.shape({
+    key: external_prop_types_default.a.string.isRequired,
+    name: external_prop_types_default.a.string.isRequired,
+    extension: external_prop_types_default.a.string.isRequired,
+    url: external_prop_types_default.a.string
+  }).isRequired,
+  close: external_prop_types_default.a.func
+});
+/* harmony default export */ var details_default = (default_Detail);
+
+// CONCATENATED MODULE: ./src/details/index.js
+
+
+
+// CONCATENATED MODULE: ./src/filters/default.js
+var default_defProp = Object.defineProperty;
+var default_defNormalProp = (obj, key, value) => key in obj ? default_defProp(obj, key, {enumerable: true, configurable: true, writable: true, value}) : obj[key] = value;
+var default_publicField = (obj, key, value) => {
+  default_defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
+  return value;
+};
+
+
+class default_Filter extends external_react_default.a.Component {
+  constructor() {
+    super(...arguments);
+    default_publicField(this, "handleFilterChange", (event) => {
+      const newValue = event.target.value;
+      this.props.updateFilter(newValue);
+    });
+  }
+  render() {
+    return /* @__PURE__ */ external_react_default.a.createElement("input", {
+      type: "search",
+      placeholder: "Sz\u0171r\u0151",
+      value: this.props.value,
+      onChange: this.handleFilterChange
+    });
+  }
+}
+default_publicField(default_Filter, "propTypes", {
+  value: external_prop_types_default.a.string.isRequired,
+  updateFilter: external_prop_types_default.a.func
+});
+/* harmony default export */ var filters_default = (default_Filter);
+
+// CONCATENATED MODULE: ./src/filters/index.js
+
+
+
+// EXTERNAL MODULE: external "classnames"
+var external_classnames_ = __webpack_require__(5);
+var external_classnames_default = /*#__PURE__*/__webpack_require__.n(external_classnames_);
+
+// CONCATENATED MODULE: ./src/utils.js
+function utils_isFolder(file) {
+  return file.key.endsWith("/");
+}
+function moveFilesAndFolders(props, monitor, component) {
+  if (!monitor.didDrop()) {
+    return;
+  }
+  const dropResult = monitor.getDropResult();
+  const folders = [];
+  const files = [];
+  props.browserProps.selection.forEach((selection) => {
+    selection[selection.length - 1] === "/" ? folders.push(selection) : files.push(selection);
+  });
+  props.browserProps.openFolder(dropResult.path);
+  folders.forEach((selection) => {
+    const fileKey = selection;
+    const fileNameParts = fileKey.split("/");
+    const folderName = fileNameParts[fileNameParts.length - 2];
+    const newKey = `${dropResult.path}${folderName}/`;
+    if (newKey.substr(0, fileKey.length) === fileKey)
+      return;
+    if (newKey !== fileKey && props.browserProps.moveFolder) {
+      props.browserProps.moveFolder(fileKey, newKey);
+    }
+  });
+  files.forEach((selection) => {
+    const fileKey = selection;
+    const fileNameParts = fileKey.split("/");
+    const fileName = fileNameParts[fileNameParts.length - 1];
+    const newKey = `${dropResult.path}${fileName}`;
+    if (newKey !== fileKey && props.browserProps.moveFile) {
+      props.browserProps.moveFile(fileKey, newKey);
+    }
+  });
+}
+
+
+// CONCATENATED MODULE: ./src/constants.js
+const FILETYPE_EXTENSIONS = {
+  Archive: [
+    "zip",
+    "rar",
+    "7z"
+  ],
+  Audio: [
+    "mp3",
+    "ogg",
+    "wav",
+    "aac"
+  ],
+  Excel: [
+    "xls",
+    "xlsx"
+  ],
+  Image: [
+    "jpg",
+    "jpeg",
+    "png",
+    "bmp"
+  ],
+  PDF: [
+    "pdf"
+  ],
+  PowerPoint: [
+    "ppt",
+    "pptx"
+  ],
+  Text: [
+    "txt"
+  ],
+  Video: [
+    "mp4",
+    "flv",
+    "avi",
+    "wmv",
+    "mov"
+  ],
+  Word: [
+    "doc",
+    "docx"
+  ],
+  Code: [
+    "js"
+  ]
+};
+const extensionMapping = {};
+for (const [type, extensions] of Object.entries(FILETYPE_EXTENSIONS)) {
+  for (const extension of extensions) {
+    extensionMapping[extension] = type;
+  }
+}
+
+
+// CONCATENATED MODULE: ./src/base-file.js
+var base_file_defProp = Object.defineProperty;
+var base_file_defNormalProp = (obj, key, value) => key in obj ? base_file_defProp(obj, key, {enumerable: true, configurable: true, writable: true, value}) : obj[key] = value;
+var base_file_publicField = (obj, key, value) => {
+  base_file_defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
+  return value;
+};
+
+
+
+
+class base_file_BaseFile extends external_react_default.a.Component {
+  constructor() {
+    super(...arguments);
+    base_file_publicField(this, "state", {
+      newName: this.getName()
+    });
+    base_file_publicField(this, "handleFileClick", (event) => {
+      event && event.preventDefault();
+      this.props.browserProps.preview({
+        url: this.props.url,
+        name: this.getName(),
+        key: this.props.fileKey,
+        extension: this.getExtension()
+      });
+    });
+    base_file_publicField(this, "handleItemClick", (event) => {
+      event.stopPropagation();
+      this.props.browserProps.select(this.props.fileKey, "file", event.ctrlKey || event.metaKey, event.shiftKey);
+    });
+    base_file_publicField(this, "handleItemDoubleClick", (event) => {
+      event.stopPropagation();
+      this.handleFileClick();
+    });
+    base_file_publicField(this, "handleRenameClick", (event) => {
+      if (!this.props.browserProps.renameFile) {
+        return;
+      }
+      this.props.browserProps.beginAction("rename", this.props.fileKey);
+    });
+    base_file_publicField(this, "handleNewNameChange", (event) => {
+      const newName = event.target.value;
+      this.setState({newName});
+    });
+    base_file_publicField(this, "handleRenameSubmit", (event) => {
+      if (event) {
+        event.preventDefault();
+      }
+      if (!this.props.browserProps.renameFile) {
+        return;
+      }
+      const newName = this.state.newName.trim();
+      if (newName.length === 0) {
+        return;
+      }
+      const invalidChar = ["/", "\\"];
+      if (invalidChar.some((char) => newName.indexOf(char) !== -1))
+        return;
+      let newKey = newName;
+      const slashIndex = this.props.fileKey.lastIndexOf("/");
+      if (slashIndex !== -1) {
+        newKey = `${this.props.fileKey.substr(0, slashIndex)}/${newName}`;
+      }
+      this.props.browserProps.renameFile(this.props.fileKey, newKey);
+    });
+    base_file_publicField(this, "handleDeleteClick", (event) => {
+      if (!this.props.browserProps.deleteFile) {
+        return;
+      }
+      this.props.browserProps.beginAction("delete", this.props.fileKey);
+    });
+    base_file_publicField(this, "handleDeleteSubmit", (event) => {
+      event.preventDefault();
+      if (!this.props.browserProps.deleteFile) {
+        return;
+      }
+      this.props.browserProps.deleteFile(this.props.browserProps.actionTargets);
+    });
+    base_file_publicField(this, "handleCancelEdit", (event) => {
+      this.props.browserProps.endAction();
+    });
+  }
+  selectFileNameFromRef(element) {
+    if (element) {
+      const currentName = element.value;
+      const pointIndex = currentName.lastIndexOf(".");
+      element.setSelectionRange(0, pointIndex || currentName.length);
+      element.focus();
+    }
+  }
+  getName() {
+    let name = this.props.newKey || this.props.fileKey;
+    const slashIndex = name.lastIndexOf("/");
+    if (slashIndex !== -1) {
+      name = name.substr(slashIndex + 1);
+    }
+    return name;
+  }
+  getExtension() {
+    const blobs = this.props.fileKey.split(".");
+    return blobs[blobs.length - 1].toLowerCase().trim();
+  }
+  getFileType() {
+    return extensionMapping[this.getExtension()] || "File";
+  }
+  connectDND(render) {
+    const inAction = this.props.isDragging || this.props.action;
+    if (typeof this.props.browserProps.moveFile === "function" && !inAction && !this.props.isRenaming) {
+      render = this.props.connectDragSource(render);
+    }
+    if (typeof this.props.browserProps.createFiles === "function" || typeof this.props.browserProps.moveFile === "function" || typeof this.props.browserProps.moveFolder === "function") {
+      render = this.props.connectDropTarget(render);
+    }
+    return render;
+  }
+}
+base_file_publicField(base_file_BaseFile, "propTypes", {
+  fileKey: external_prop_types_default.a.string,
+  url: external_prop_types_default.a.string,
+  newKey: external_prop_types_default.a.string,
+  isRenaming: external_prop_types_default.a.bool,
+  connectDragSource: external_prop_types_default.a.func,
+  connectDropTarget: external_prop_types_default.a.func,
+  isDragging: external_prop_types_default.a.bool,
+  action: external_prop_types_default.a.string,
+  browserProps: external_prop_types_default.a.shape({
+    icons: external_prop_types_default.a.object,
+    select: external_prop_types_default.a.func,
+    beginAction: external_prop_types_default.a.func,
+    endAction: external_prop_types_default.a.func,
+    preview: external_prop_types_default.a.func,
+    createFiles: external_prop_types_default.a.func,
+    moveFile: external_prop_types_default.a.func,
+    moveFolder: external_prop_types_default.a.func,
+    renameFile: external_prop_types_default.a.func,
+    deleteFile: external_prop_types_default.a.func
+  })
+});
+const dragSource = {
+  beginDrag(props) {
+    if (!props.browserProps.selection.length || !props.browserProps.selection.includes(props.fileKey)) {
+      props.browserProps.select(props.fileKey, "file");
+    }
+    return {
+      key: props.fileKey
+    };
+  },
+  endDrag(props, monitor, component) {
+    moveFilesAndFolders(props, monitor, component);
+  }
+};
+function dragCollect(connect, monitor) {
+  return {
+    connectDragPreview: connect.dragPreview(),
+    connectDragSource: connect.dragSource(),
+    isDragging: monitor.isDragging()
+  };
+}
+const targetSource = {
+  drop(props, monitor) {
+    if (monitor.didDrop()) {
+      return;
+    }
+    const key = props.newKey || props.fileKey;
+    const slashIndex = key.lastIndexOf("/");
+    const path = slashIndex !== -1 ? key.substr(0, slashIndex + 1) : "";
+    const item = monitor.getItem();
+    if (item.files && props.browserProps.createFiles) {
+      props.browserProps.createFiles(item.files, path);
+    }
+    return {
+      path
+    };
+  }
+};
+function targetCollect(connect, monitor) {
+  return {
+    connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver({shallow: true})
+  };
+}
+const BaseFileConnectors = {
+  dragSource,
+  dragCollect,
+  targetSource,
+  targetCollect
+};
+/* harmony default export */ var base_file = (base_file_BaseFile);
+
+
+// CONCATENATED MODULE: ./src/headers/table.js
+var table_defProp = Object.defineProperty;
+var table_defNormalProp = (obj, key, value) => key in obj ? table_defProp(obj, key, {enumerable: true, configurable: true, writable: true, value}) : obj[key] = value;
+var table_publicField = (obj, key, value) => {
+  table_defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
+  return value;
+};
+
+
+
+
+
+
+class table_RawTableHeader extends external_react_default.a.Component {
+  handleHeaderClick(event) {
+    this.props.select(this.props.fileKey);
+  }
+  render() {
+    const header = /* @__PURE__ */ external_react_default.a.createElement("tr", {
+      className: external_classnames_default()("folder", {
+        dragover: this.props.isOver,
+        selected: this.props.isSelected
+      })
+    }, /* @__PURE__ */ external_react_default.a.createElement("th", null, "F\xE1jl"), /* @__PURE__ */ external_react_default.a.createElement("th", {
+      className: "size"
+    }, "M\xE9ret"), /* @__PURE__ */ external_react_default.a.createElement("th", {
+      className: "modified"
+    }, "M\xF3dos\xEDtva"));
+    if (typeof this.props.browserProps.createFiles === "function" || typeof this.props.browserProps.moveFile === "function" || typeof this.props.browserProps.moveFolder === "function") {
+      return this.props.connectDropTarget(header);
+    } else {
+      return header;
+    }
+  }
+}
+table_publicField(table_RawTableHeader, "propTypes", {
+  select: external_prop_types_default.a.func,
+  fileKey: external_prop_types_default.a.string,
+  connectDropTarget: external_prop_types_default.a.func,
+  isOver: external_prop_types_default.a.bool,
+  isSelected: external_prop_types_default.a.func,
+  browserProps: external_prop_types_default.a.shape({
+    createFiles: external_prop_types_default.a.func,
+    moveFolder: external_prop_types_default.a.func,
+    moveFile: external_prop_types_default.a.func
+  })
+});
+const TableHeader = Object(external_react_dnd_["DropTarget"])(["file", "folder", external_react_dnd_html5_backend_["NativeTypes"].FILE], BaseFileConnectors.targetSource, BaseFileConnectors.targetCollect)(table_RawTableHeader);
+/* harmony default export */ var table = (TableHeader);
+
+
+// CONCATENATED MODULE: ./src/headers/index.js
+
+
+
+// EXTERNAL MODULE: external "date-fns"
+var external_date_fns_ = __webpack_require__(2);
+
+// EXTERNAL MODULE: external "lodash/flow"
+var flow_ = __webpack_require__(6);
+var flow_default = /*#__PURE__*/__webpack_require__.n(flow_);
+
+// CONCATENATED MODULE: ./src/files/utils.js
+function floatPrecision(floatValue, precision) {
+  floatValue = parseFloat(floatValue);
+  if (isNaN(floatValue)) {
+    return parseFloat("0").toFixed(precision);
+  } else {
+    const power = Math.pow(10, precision);
+    floatValue = (Math.round(floatValue * power) / power).toFixed(precision);
+    return floatValue.toString();
+  }
+}
+function fileSize(size) {
+  if (size > 1024) {
+    const kbSize = size / 1024;
+    if (kbSize > 1024) {
+      const mbSize = kbSize / 1024;
+      return `${floatPrecision(mbSize, 2)} MB`;
+    }
+    return `${Math.round(kbSize)} kB`;
+  }
+  return `${size} B`;
+}
+
+
+// EXTERNAL MODULE: external "date-fns/locale"
+var locale_ = __webpack_require__(7);
+
+// CONCATENATED MODULE: ./src/files/list-thumbnail.js
+var list_thumbnail_defProp = Object.defineProperty;
+var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __propIsEnum = Object.prototype.propertyIsEnumerable;
+var list_thumbnail_defNormalProp = (obj, key, value) => key in obj ? list_thumbnail_defProp(obj, key, {enumerable: true, configurable: true, writable: true, value}) : obj[key] = value;
+var __spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp.call(b, prop))
+      list_thumbnail_defNormalProp(a, prop, b[prop]);
+  if (__getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(b)) {
+      if (__propIsEnum.call(b, prop))
+        list_thumbnail_defNormalProp(a, prop, b[prop]);
+    }
+  return a;
+};
+var list_thumbnail_publicField = (obj, key, value) => {
+  list_thumbnail_defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
+  return value;
+};
+
+
+
+
+
+
+
+
+
+class list_thumbnail_RawListThumbnailFile extends base_file {
+  render() {
+    const {
+      thumbnail_url: thumbnailUrl,
+      action,
+      url,
+      isDragging,
+      isRenaming,
+      isSelected,
+      isSelectable,
+      isOver,
+      isDeleting,
+      showName,
+      showSize,
+      showModified,
+      browserProps,
+      connectDragPreview
+    } = this.props;
+    let icon;
+    if (thumbnailUrl) {
+      icon = /* @__PURE__ */ external_react_default.a.createElement("div", {
+        className: "image",
+        style: {
+          backgroundImage: "url(" + thumbnailUrl + ")"
+        }
+      });
+    } else {
+      icon = browserProps.icons[this.getFileType()] || browserProps.icons.File;
+    }
+    const inAction = isDragging || action;
+    const ConfirmDeletionRenderer = browserProps.confirmDeletionRenderer;
+    let name;
+    if (showName) {
+      if (!inAction && isDeleting && browserProps.selection.length === 1) {
+        name = /* @__PURE__ */ external_react_default.a.createElement(ConfirmDeletionRenderer, {
+          handleDeleteSubmit: this.handleDeleteSubmit,
+          handleFileClick: this.handleFileClick,
+          url
+        }, this.getName());
+      } else if (!inAction && isRenaming) {
+        name = /* @__PURE__ */ external_react_default.a.createElement("form", {
+          className: "renaming",
+          onSubmit: this.handleRenameSubmit
+        }, /* @__PURE__ */ external_react_default.a.createElement("input", {
+          ref: this.selectFileNameFromRef,
+          type: "text",
+          value: this.state.newName,
+          onChange: this.handleNewNameChange,
+          onBlur: this.handleCancelEdit,
+          autoFocus: true
+        }));
+      } else {
+        name = /* @__PURE__ */ external_react_default.a.createElement("a", {
+          href: url,
+          download: "download",
+          onClick: this.handleFileClick
+        }, this.getName());
+      }
+    }
+    let size;
+    if (showSize) {
+      if (!isRenaming && !isDeleting) {
+        size = /* @__PURE__ */ external_react_default.a.createElement("span", {
+          className: "size"
+        }, /* @__PURE__ */ external_react_default.a.createElement("small", null, fileSize(this.props.size)));
+      }
+    }
+    let modified;
+    if (showModified) {
+      if (!isRenaming && !isDeleting) {
+        modified = /* @__PURE__ */ external_react_default.a.createElement("span", {
+          className: "modified"
+        }, "M\xF3dos\xEDtva: ", Object(external_date_fns_["formatDistanceToNow"])(this.props.modified, {addSuffix: true, locale: locale_["hu"]}));
+      }
+    }
+    let rowProps = {};
+    if (isSelectable) {
+      rowProps = {
+        onClick: this.handleItemClick
+      };
+    }
+    let row = /* @__PURE__ */ external_react_default.a.createElement("li", __spreadValues({
+      className: external_classnames_default()("file", {
+        pending: action,
+        dragging: isDragging,
+        dragover: isOver,
+        selected: isSelected
+      }),
+      onDoubleClick: this.handleItemDoubleClick
+    }, rowProps), /* @__PURE__ */ external_react_default.a.createElement("div", {
+      className: "item"
+    }, /* @__PURE__ */ external_react_default.a.createElement("span", {
+      className: "thumb"
+    }, icon), /* @__PURE__ */ external_react_default.a.createElement("span", {
+      className: "name"
+    }, name), size, modified));
+    if (typeof browserProps.moveFile === "function") {
+      row = connectDragPreview(row);
+    }
+    return this.connectDND(row);
+  }
+}
+list_thumbnail_publicField(list_thumbnail_RawListThumbnailFile, "defaultProps", {
+  showName: true,
+  showSize: true,
+  showModified: true,
+  isSelectable: true
+});
+const ListThumbnailFile = flow_default()(Object(external_react_dnd_["DragSource"])("file", BaseFileConnectors.dragSource, BaseFileConnectors.dragCollect), Object(external_react_dnd_["DropTarget"])(["file", "folder", external_react_dnd_html5_backend_["NativeTypes"].FILE], BaseFileConnectors.targetSource, BaseFileConnectors.targetCollect))(list_thumbnail_RawListThumbnailFile);
+/* harmony default export */ var list_thumbnail = (ListThumbnailFile);
+
+
+// CONCATENATED MODULE: ./src/files/simple-list-thumbnail.js
+var simple_list_thumbnail_defProp = Object.defineProperty;
+var __defProps = Object.defineProperties;
+var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
+var simple_list_thumbnail_getOwnPropSymbols = Object.getOwnPropertySymbols;
+var simple_list_thumbnail_hasOwnProp = Object.prototype.hasOwnProperty;
+var simple_list_thumbnail_propIsEnum = Object.prototype.propertyIsEnumerable;
+var simple_list_thumbnail_defNormalProp = (obj, key, value) => key in obj ? simple_list_thumbnail_defProp(obj, key, {enumerable: true, configurable: true, writable: true, value}) : obj[key] = value;
+var simple_list_thumbnail_spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (simple_list_thumbnail_hasOwnProp.call(b, prop))
+      simple_list_thumbnail_defNormalProp(a, prop, b[prop]);
+  if (simple_list_thumbnail_getOwnPropSymbols)
+    for (var prop of simple_list_thumbnail_getOwnPropSymbols(b)) {
+      if (simple_list_thumbnail_propIsEnum.call(b, prop))
+        simple_list_thumbnail_defNormalProp(a, prop, b[prop]);
+    }
+  return a;
+};
+var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
+
+
+class simple_list_thumbnail_SimpleListThumbnailFile extends external_react_default.a.Component {
+  render() {
+    return /* @__PURE__ */ external_react_default.a.createElement(list_thumbnail, __spreadProps(simple_list_thumbnail_spreadValues({}, this.props), {
+      showName: false,
+      showSize: false,
+      showModified: false,
+      isSelectable: false
+    }));
+  }
+}
+/* harmony default export */ var simple_list_thumbnail = (simple_list_thumbnail_SimpleListThumbnailFile);
+
+// CONCATENATED MODULE: ./src/files/table.js
+
+
+
+
+
+
+
+
+class table_RawTableFile extends base_file {
+  render() {
+    const {
+      isDragging,
+      isDeleting,
+      isRenaming,
+      isOver,
+      isSelected,
+      action,
+      url,
+      browserProps,
+      connectDragPreview,
+      depth,
+      size,
+      modified
+    } = this.props;
+    const icon = browserProps.icons[this.getFileType()] || browserProps.icons.File;
+    const inAction = isDragging || action;
+    const ConfirmDeletionRenderer = browserProps.confirmDeletionRenderer;
+    let name;
+    if (!inAction && isDeleting && browserProps.selection.length === 1) {
+      name = /* @__PURE__ */ external_react_default.a.createElement(ConfirmDeletionRenderer, {
+        handleDeleteSubmit: this.handleDeleteSubmit,
+        handleFileClick: this.handleFileClick,
+        url
+      }, icon, this.getName());
+    } else if (!inAction && isRenaming) {
+      name = /* @__PURE__ */ external_react_default.a.createElement("form", {
+        className: "renaming",
+        onSubmit: this.handleRenameSubmit
+      }, icon, /* @__PURE__ */ external_react_default.a.createElement("input", {
+        ref: this.selectFileNameFromRef,
+        type: "text",
+        value: this.state.newName,
+        onChange: this.handleNewNameChange,
+        onBlur: this.handleCancelEdit,
+        autoFocus: true
+      }));
+    } else {
+      name = /* @__PURE__ */ external_react_default.a.createElement("a", {
+        href: url || "#",
+        download: "download",
+        onClick: this.handleFileClick
+      }, icon, this.getName());
+    }
+    let draggable = /* @__PURE__ */ external_react_default.a.createElement("div", null, name);
+    if (typeof browserProps.moveFile === "function") {
+      draggable = connectDragPreview(draggable);
+    }
+    const row = /* @__PURE__ */ external_react_default.a.createElement("tr", {
+      className: external_classnames_default()("file", {
+        pending: action,
+        dragging: isDragging,
+        dragover: isOver,
+        selected: isSelected
+      }),
+      onClick: this.handleItemClick,
+      onDoubleClick: this.handleItemDoubleClick
+    }, /* @__PURE__ */ external_react_default.a.createElement("td", {
+      className: "name"
+    }, /* @__PURE__ */ external_react_default.a.createElement("div", {
+      style: {paddingLeft: depth * 16 + "px"}
+    }, draggable)), /* @__PURE__ */ external_react_default.a.createElement("td", {
+      className: "size"
+    }, fileSize(size)), /* @__PURE__ */ external_react_default.a.createElement("td", {
+      className: "modified"
+    }, typeof modified === "undefined" ? "-" : Object(external_date_fns_["formatDistanceToNow"])(modified, {addSuffix: true})));
+    return this.connectDND(row);
+  }
+}
+const TableFile = flow_default()(Object(external_react_dnd_["DragSource"])("file", BaseFileConnectors.dragSource, BaseFileConnectors.dragCollect), Object(external_react_dnd_["DropTarget"])(["file", "folder", external_react_dnd_html5_backend_["NativeTypes"].FILE], BaseFileConnectors.targetSource, BaseFileConnectors.targetCollect))(table_RawTableFile);
+/* harmony default export */ var files_table = (TableFile);
+
+
+// CONCATENATED MODULE: ./src/files/index.js
+
+
+
+
+
+// CONCATENATED MODULE: ./src/base-folder.js
+var base_folder_defProp = Object.defineProperty;
+var base_folder_defNormalProp = (obj, key, value) => key in obj ? base_folder_defProp(obj, key, {enumerable: true, configurable: true, writable: true, value}) : obj[key] = value;
+var base_folder_publicField = (obj, key, value) => {
+  base_folder_defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
+  return value;
+};
+
+
+
+class base_folder_BaseFolder extends external_react_default.a.Component {
+  constructor() {
+    super(...arguments);
+    base_folder_publicField(this, "state", {
+      newName: this.props.isDraft ? "New folder" : this.getName()
+    });
+    base_folder_publicField(this, "handleFolderClick", (event) => {
+      event.stopPropagation();
+      this.props.browserProps.select(this.props.fileKey, "folder", event.ctrlKey || event.metaKey, event.shiftKey);
+    });
+    base_folder_publicField(this, "handleFolderDoubleClick", (event) => {
+      event.stopPropagation();
+      this.toggleFolder();
+    });
+    base_folder_publicField(this, "handleRenameClick", (event) => {
+      if (!this.props.browserProps.renameFolder) {
+        return;
+      }
+      this.props.browserProps.beginAction("rename", this.props.fileKey);
+    });
+    base_folder_publicField(this, "handleNewNameChange", (event) => {
+      const newName = event.target.value;
+      this.setState({newName});
+    });
+    base_folder_publicField(this, "handleRenameSubmit", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      if (!this.props.browserProps.renameFolder && !this.props.isDraft) {
+        return;
+      }
+      const newName = this.state.newName.trim();
+      if (newName.length === 0) {
+        return;
+      }
+      const invalidChar = ["/", "\\"];
+      if (invalidChar.some((char) => newName.indexOf(char) !== -1))
+        return;
+      let newKey = this.props.fileKey.substr(0, this.props.fileKey.substr(0, this.props.fileKey.length - 1).lastIndexOf("/"));
+      if (newKey.length) {
+        newKey += "/";
+      }
+      newKey += newName;
+      newKey += "/";
+      if (this.props.isDraft) {
+        this.props.browserProps.createFolder(newKey);
+      } else {
+        this.props.browserProps.renameFolder(this.props.fileKey, newKey);
+      }
+    });
+    base_folder_publicField(this, "handleDeleteClick", (event) => {
+      if (!this.props.browserProps.deleteFolder) {
+        return;
+      }
+      this.props.browserProps.beginAction("delete", this.props.fileKey);
+    });
+    base_folder_publicField(this, "handleDeleteSubmit", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      if (!this.props.browserProps.deleteFolder) {
+        return;
+      }
+      this.props.browserProps.deleteFolder(this.props.browserProps.actionTargets);
+    });
+    base_folder_publicField(this, "handleCancelEdit", (event) => {
+      this.props.browserProps.endAction();
+    });
+    base_folder_publicField(this, "toggleFolder", () => {
+      this.props.browserProps.toggleFolder(this.props.fileKey);
+    });
+  }
+  selectFolderNameFromRef(element) {
+    if (element) {
+      const currentName = element.value;
+      element.setSelectionRange(0, currentName.length);
+      element.focus();
+    }
+  }
+  getName() {
+    if (this.props.name) {
+      return this.props.name;
+    }
+    const folders = this.props.fileKey.split("/");
+    return this.props.newName || folders[folders.length - 2];
+  }
+  connectDND(render) {
+    const inAction = this.props.isDragging || this.props.action;
+    if (this.props.keyDerived) {
+      if (typeof this.props.browserProps.moveFolder === "function" && !inAction && !this.props.isRenaming && !this.props.isDeleting) {
+        render = this.props.connectDragSource(render);
+      }
+      if (typeof this.props.browserProps.createFiles === "function" || typeof this.props.browserProps.moveFolder === "function" || typeof this.props.browserProps.moveFile === "function") {
+        render = this.props.connectDropTarget(render);
+      }
+    }
+    return render;
+  }
+}
+base_folder_publicField(base_folder_BaseFolder, "propTypes", {
+  name: external_prop_types_default.a.string,
+  fileKey: external_prop_types_default.a.string,
+  newName: external_prop_types_default.a.string,
+  keyDerived: external_prop_types_default.a.bool,
+  isDraft: external_prop_types_default.a.bool,
+  isRenaming: external_prop_types_default.a.bool,
+  isDeleting: external_prop_types_default.a.bool,
+  connectDragSource: external_prop_types_default.a.func,
+  connectDropTarget: external_prop_types_default.a.func,
+  isDragging: external_prop_types_default.a.bool,
+  action: external_prop_types_default.a.string,
+  browserProps: external_prop_types_default.a.shape({
+    select: external_prop_types_default.a.func,
+    toggleFolder: external_prop_types_default.a.func,
+    beginAction: external_prop_types_default.a.func,
+    endAction: external_prop_types_default.a.func,
+    preview: external_prop_types_default.a.func,
+    createFiles: external_prop_types_default.a.func,
+    createFolder: external_prop_types_default.a.func,
+    moveFile: external_prop_types_default.a.func,
+    moveFolder: external_prop_types_default.a.func,
+    renameFolder: external_prop_types_default.a.func,
+    deleteFolder: external_prop_types_default.a.func
+  })
+});
+const base_folder_dragSource = {
+  beginDrag(props) {
+    if (!props.browserProps.selection.length) {
+      props.browserProps.select(props.fileKey, "folder");
+    }
+    return {
+      key: props.fileKey
+    };
+  },
+  endDrag(props, monitor, component) {
+    moveFilesAndFolders(props, monitor, component);
+  }
+};
+function base_folder_dragCollect(connect, monitor) {
+  return {
+    connectDragPreview: connect.dragPreview(),
+    connectDragSource: connect.dragSource(),
+    isDragging: monitor.isDragging()
+  };
+}
+const BaseFolderConnectors = {
+  dragSource: base_folder_dragSource,
+  dragCollect: base_folder_dragCollect
+};
+/* harmony default export */ var base_folder = (base_folder_BaseFolder);
+
+
+// CONCATENATED MODULE: ./src/folders/list-thumbnail.js
+var folders_list_thumbnail_defProp = Object.defineProperty;
+var list_thumbnail_defProps = Object.defineProperties;
+var list_thumbnail_getOwnPropDescs = Object.getOwnPropertyDescriptors;
+var list_thumbnail_getOwnPropSymbols = Object.getOwnPropertySymbols;
+var list_thumbnail_hasOwnProp = Object.prototype.hasOwnProperty;
+var list_thumbnail_propIsEnum = Object.prototype.propertyIsEnumerable;
+var folders_list_thumbnail_defNormalProp = (obj, key, value) => key in obj ? folders_list_thumbnail_defProp(obj, key, {enumerable: true, configurable: true, writable: true, value}) : obj[key] = value;
+var list_thumbnail_spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (list_thumbnail_hasOwnProp.call(b, prop))
+      folders_list_thumbnail_defNormalProp(a, prop, b[prop]);
+  if (list_thumbnail_getOwnPropSymbols)
+    for (var prop of list_thumbnail_getOwnPropSymbols(b)) {
+      if (list_thumbnail_propIsEnum.call(b, prop))
+        folders_list_thumbnail_defNormalProp(a, prop, b[prop]);
+    }
+  return a;
+};
+var list_thumbnail_spreadProps = (a, b) => list_thumbnail_defProps(a, list_thumbnail_getOwnPropDescs(b));
+
+
+
+
+
+
+
+
+class list_thumbnail_RawListThumbnailFolder extends base_folder {
+  render() {
+    const {
+      isOpen,
+      isDragging,
+      isDeleting,
+      isRenaming,
+      isDraft,
+      isOver,
+      isSelected,
+      url,
+      action,
+      browserProps,
+      depth,
+      keyDerived,
+      connectDragPreview
+    } = this.props;
+    const icon = browserProps.icons[isOpen ? "FolderOpen" : "Folder"];
+    const inAction = isDragging || action;
+    const ConfirmDeletionRenderer = browserProps.confirmDeletionRenderer;
+    let name;
+    if (!inAction && isDeleting && browserProps.selection.length === 1) {
+      name = /* @__PURE__ */ external_react_default.a.createElement(ConfirmDeletionRenderer, {
+        handleDeleteSubmit: this.handleDeleteSubmit,
+        handleFileClick: this.handleFileClick,
+        url
+      }, this.getName());
+    } else if (!inAction && isRenaming || isDraft) {
+      name = /* @__PURE__ */ external_react_default.a.createElement("div", null, /* @__PURE__ */ external_react_default.a.createElement("form", {
+        className: "renaming",
+        onSubmit: this.handleRenameSubmit
+      }, /* @__PURE__ */ external_react_default.a.createElement("input", {
+        type: "text",
+        ref: this.selectFolderNameFromRef,
+        value: this.state.newName,
+        onChange: this.handleNewNameChange,
+        onBlur: this.handleCancelEdit,
+        autoFocus: true
+      })));
+    } else {
+      name = /* @__PURE__ */ external_react_default.a.createElement("div", null, /* @__PURE__ */ external_react_default.a.createElement("a", {
+        onClick: this.toggleFolder
+      }, this.getName()));
+    }
+    let children;
+    if (isOpen && browserProps.nestChildren) {
+      children = [];
+      for (let childIndex = 0; childIndex < children.length; childIndex++) {
+        const file = children[childIndex];
+        const thisItemProps = list_thumbnail_spreadProps(list_thumbnail_spreadValues({}, browserProps.getItemProps(file, browserProps)), {
+          depth: depth + 1
+        });
+        if (!utils_isFolder(file)) {
+          children.push(/* @__PURE__ */ external_react_default.a.createElement(browserProps.fileRenderer, list_thumbnail_spreadValues(list_thumbnail_spreadProps(list_thumbnail_spreadValues(list_thumbnail_spreadValues({}, file), thisItemProps), {
+            browserProps
+          }), browserProps.fileRendererProps)));
+        } else {
+          children.push(/* @__PURE__ */ external_react_default.a.createElement(browserProps.folderRenderer, list_thumbnail_spreadValues(list_thumbnail_spreadProps(list_thumbnail_spreadValues(list_thumbnail_spreadValues({}, file), thisItemProps), {
+            browserProps
+          }), browserProps.folderRendererProps)));
+        }
+      }
+      if (children.length) {
+        children = /* @__PURE__ */ external_react_default.a.createElement("ul", {
+          style: {padding: "0 8px", paddingLeft: "16px"}
+        }, children);
+      } else {
+        children = /* @__PURE__ */ external_react_default.a.createElement("p", null, "No items in this folder");
+      }
+    }
+    let folder = /* @__PURE__ */ external_react_default.a.createElement("li", {
+      className: external_classnames_default()("folder", {
+        expanded: isOpen && browserProps.nestChildren,
+        pending: action,
+        dragging: isDragging,
+        dragover: isOver,
+        selected: isSelected
+      }),
+      onClick: this.handleFolderClick,
+      onDoubleClick: this.handleFolderDoubleClick
+    }, /* @__PURE__ */ external_react_default.a.createElement("div", {
+      className: "item"
+    }, /* @__PURE__ */ external_react_default.a.createElement("span", {
+      className: "thumb"
+    }, icon), /* @__PURE__ */ external_react_default.a.createElement("span", {
+      className: "name"
+    }, name)), children);
+    if (typeof browserProps.moveFolder === "function" && keyDerived) {
+      folder = connectDragPreview(folder);
+    }
+    return this.connectDND(folder);
+  }
+}
+const ListThumbnailFolder = flow_default()(Object(external_react_dnd_["DragSource"])("folder", BaseFolderConnectors.dragSource, BaseFolderConnectors.dragCollect), Object(external_react_dnd_["DropTarget"])(["file", "folder", external_react_dnd_html5_backend_["NativeTypes"].FILE], BaseFileConnectors.targetSource, BaseFileConnectors.targetCollect))(list_thumbnail_RawListThumbnailFolder);
+/* harmony default export */ var folders_list_thumbnail = (ListThumbnailFolder);
+
+
+// CONCATENATED MODULE: ./src/folders/table.js
+
+
+
+
+
+
+
+class table_RawTableFolder extends base_folder {
+  render() {
+    const {
+      isOpen,
+      isDragging,
+      isDeleting,
+      isRenaming,
+      isDraft,
+      isOver,
+      isSelected,
+      action,
+      url,
+      browserProps,
+      connectDragPreview,
+      depth
+    } = this.props;
+    const icon = browserProps.icons[isOpen ? "FolderOpen" : "Folder"];
+    const inAction = isDragging || action;
+    const ConfirmDeletionRenderer = browserProps.confirmDeletionRenderer;
+    let name;
+    if (!inAction && isDeleting && browserProps.selection.length === 1) {
+      name = /* @__PURE__ */ external_react_default.a.createElement(ConfirmDeletionRenderer, {
+        handleDeleteSubmit: this.handleDeleteSubmit,
+        handleFileClick: this.handleFileClick,
+        url
+      }, icon, this.getName());
+    } else if (!inAction && isRenaming || isDraft) {
+      name = /* @__PURE__ */ external_react_default.a.createElement("div", null, /* @__PURE__ */ external_react_default.a.createElement("form", {
+        className: "renaming",
+        onSubmit: this.handleRenameSubmit
+      }, icon, /* @__PURE__ */ external_react_default.a.createElement("input", {
+        type: "text",
+        ref: this.selectFolderNameFromRef,
+        value: this.state.newName,
+        onChange: this.handleNewNameChange,
+        onBlur: this.handleCancelEdit,
+        autoFocus: true
+      })));
+    } else {
+      name = /* @__PURE__ */ external_react_default.a.createElement("div", null, /* @__PURE__ */ external_react_default.a.createElement("a", {
+        onClick: this.toggleFolder
+      }, icon, this.getName()));
+    }
+    let draggable = /* @__PURE__ */ external_react_default.a.createElement("div", null, name);
+    if (typeof browserProps.moveFile === "function") {
+      draggable = connectDragPreview(draggable);
+    }
+    const folder = /* @__PURE__ */ external_react_default.a.createElement("tr", {
+      className: external_classnames_default()("folder", {
+        pending: action,
+        dragging: isDragging,
+        dragover: isOver,
+        selected: isSelected
+      }),
+      onClick: this.handleFolderClick,
+      onDoubleClick: this.handleFolderDoubleClick
+    }, /* @__PURE__ */ external_react_default.a.createElement("td", {
+      className: "name"
+    }, /* @__PURE__ */ external_react_default.a.createElement("div", {
+      style: {paddingLeft: depth * 16 + "px"}
+    }, draggable)), /* @__PURE__ */ external_react_default.a.createElement("td", null), /* @__PURE__ */ external_react_default.a.createElement("td", null));
+    return this.connectDND(folder);
+  }
+}
+const TableFolder = flow_default()(Object(external_react_dnd_["DragSource"])("folder", BaseFolderConnectors.dragSource, BaseFolderConnectors.dragCollect), Object(external_react_dnd_["DropTarget"])(["file", "folder", external_react_dnd_html5_backend_["NativeTypes"].FILE], BaseFileConnectors.targetSource, BaseFileConnectors.targetCollect))(table_RawTableFolder);
+/* harmony default export */ var folders_table = (TableFolder);
+
+
+// CONCATENATED MODULE: ./src/folders/index.js
+
+
+
+
+// CONCATENATED MODULE: ./src/confirmations/default.js
+
+
+const ConfirmDeletion = (props) => {
+  const {
+    children,
+    handleDeleteSubmit,
+    handleFileClick,
+    url
+  } = props;
+  return /* @__PURE__ */ external_react_default.a.createElement("form", {
+    className: "deleting",
+    onSubmit: handleDeleteSubmit
+  }, /* @__PURE__ */ external_react_default.a.createElement("a", {
+    href: url,
+    download: "download",
+    onClick: handleFileClick
+  }, children), /* @__PURE__ */ external_react_default.a.createElement("div", null, /* @__PURE__ */ external_react_default.a.createElement("button", {
+    type: "submit"
+  }, "Confirm Deletion")));
+};
+ConfirmDeletion.propTypes = {
+  children: external_prop_types_default.a.node,
+  handleDeleteSubmit: external_prop_types_default.a.func,
+  handleFileClick: external_prop_types_default.a.func,
+  url: external_prop_types_default.a.string
+};
+ConfirmDeletion.defaultProps = {
+  url: "#"
+};
+/* harmony default export */ var confirmations_default = (ConfirmDeletion);
+
+// CONCATENATED MODULE: ./src/confirmations/multiple.js
+
+
+const MultipleConfirmDeletion = (props) => {
+  const {
+    handleDeleteSubmit
+  } = props;
+  return /* @__PURE__ */ external_react_default.a.createElement("button", {
+    className: "deleting",
+    onClick: handleDeleteSubmit
+  }, "Confirm Deletion");
+};
+MultipleConfirmDeletion.propTypes = {
+  handleDeleteSubmit: external_prop_types_default.a.func
+};
+/* harmony default export */ var multiple = (MultipleConfirmDeletion);
+
+// CONCATENATED MODULE: ./src/confirmations/index.js
+
+
+
+
+// CONCATENATED MODULE: ./src/groupers/by-folder.js
+var by_folder_defProp = Object.defineProperty;
+var by_folder_defProps = Object.defineProperties;
+var by_folder_getOwnPropDescs = Object.getOwnPropertyDescriptors;
+var by_folder_getOwnPropSymbols = Object.getOwnPropertySymbols;
+var by_folder_hasOwnProp = Object.prototype.hasOwnProperty;
+var by_folder_propIsEnum = Object.prototype.propertyIsEnumerable;
+var by_folder_defNormalProp = (obj, key, value) => key in obj ? by_folder_defProp(obj, key, {enumerable: true, configurable: true, writable: true, value}) : obj[key] = value;
+var by_folder_spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (by_folder_hasOwnProp.call(b, prop))
+      by_folder_defNormalProp(a, prop, b[prop]);
+  if (by_folder_getOwnPropSymbols)
+    for (var prop of by_folder_getOwnPropSymbols(b)) {
+      if (by_folder_propIsEnum.call(b, prop))
+        by_folder_defNormalProp(a, prop, b[prop]);
+    }
+  return a;
+};
+var by_folder_spreadProps = (a, b) => by_folder_defProps(a, by_folder_getOwnPropDescs(b));
+
+/* harmony default export */ var by_folder = (function(files, root) {
+  const fileTree = {
+    contents: [],
+    children: {}
+  };
+  files.map((file) => {
+    file.relativeKey = (file.newKey || file.key).substr(root.length);
+    let currentFolder = fileTree;
+    const folders = file.relativeKey.split("/");
+    folders.map((folder, folderIndex) => {
+      if (folderIndex === folders.length - 1 && utils_isFolder(file)) {
+        for (const key in file) {
+          currentFolder[key] = file[key];
+        }
+      }
+      if (folder === "") {
+        return;
+      }
+      const isAFile = !utils_isFolder(file) && folderIndex === folders.length - 1;
+      if (isAFile) {
+        currentFolder.contents.push(by_folder_spreadProps(by_folder_spreadValues({}, file), {
+          keyDerived: true
+        }));
+      } else {
+        if (folder in currentFolder.children === false) {
+          currentFolder.children[folder] = {
+            contents: [],
+            children: {}
+          };
+        }
+        currentFolder = currentFolder.children[folder];
+      }
+    });
+  });
+  function addAllChildren(level, prefix) {
+    if (prefix !== "") {
+      prefix += "/";
+    }
+    let files2 = [];
+    for (const folder in level.children) {
+      files2.push(by_folder_spreadProps(by_folder_spreadValues({}, level.children[folder]), {
+        contents: void 0,
+        keyDerived: true,
+        key: root + prefix + folder + "/",
+        relativeKey: prefix + folder + "/",
+        children: addAllChildren(level.children[folder], prefix + folder),
+        size: 0
+      }));
+    }
+    files2 = files2.concat(level.contents);
+    return files2;
+  }
+  files = addAllChildren(fileTree, "");
+  return files;
+});
+
+// CONCATENATED MODULE: ./src/groupers/utils.js
+
+function relativeTimeWindows() {
+  const windows = [];
+  const now = new Date();
+  windows.push({
+    name: "Today",
+    begins: Object(external_date_fns_["startOfToday"])(),
+    ends: Object(external_date_fns_["endOfToday"])(),
+    items: []
+  });
+  windows.push({
+    name: "Yesterday",
+    begins: Object(external_date_fns_["startOfYesterday"])(),
+    ends: Object(external_date_fns_["endOfYesterday"])(),
+    items: []
+  });
+  windows.push({
+    name: "Earlier this Week",
+    begins: Object(external_date_fns_["startOfWeek"])(now),
+    ends: Object(external_date_fns_["endOfWeek"])(now),
+    items: []
+  });
+  windows.push({
+    name: "Last Week",
+    begins: Object(external_date_fns_["startOfWeek"])(Object(external_date_fns_["addWeeks"])(now, -1)),
+    ends: Object(external_date_fns_["endOfWeek"])(Object(external_date_fns_["addWeeks"])(now, -1)),
+    items: []
+  });
+  if (Object(external_date_fns_["getMonth"])(windows[windows.length - 1].begins) === Object(external_date_fns_["getMonth"])(now)) {
+    windows.push({
+      name: "Earlier this Month",
+      begins: Object(external_date_fns_["startOfMonth"])(now),
+      ends: Object(external_date_fns_["endOfMonth"])(now),
+      items: []
+    });
+  }
+  return windows;
+}
+
+
+// CONCATENATED MODULE: ./src/groupers/by-modified.js
+var by_modified_defProp = Object.defineProperty;
+var by_modified_defProps = Object.defineProperties;
+var by_modified_getOwnPropDescs = Object.getOwnPropertyDescriptors;
+var by_modified_getOwnPropSymbols = Object.getOwnPropertySymbols;
+var by_modified_hasOwnProp = Object.prototype.hasOwnProperty;
+var by_modified_propIsEnum = Object.prototype.propertyIsEnumerable;
+var by_modified_defNormalProp = (obj, key, value) => key in obj ? by_modified_defProp(obj, key, {enumerable: true, configurable: true, writable: true, value}) : obj[key] = value;
+var by_modified_spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (by_modified_hasOwnProp.call(b, prop))
+      by_modified_defNormalProp(a, prop, b[prop]);
+  if (by_modified_getOwnPropSymbols)
+    for (var prop of by_modified_getOwnPropSymbols(b)) {
+      if (by_modified_propIsEnum.call(b, prop))
+        by_modified_defNormalProp(a, prop, b[prop]);
+    }
+  return a;
+};
+var by_modified_spreadProps = (a, b) => by_modified_defProps(a, by_modified_getOwnPropDescs(b));
+
+
+
+/* harmony default export */ var by_modified = (function(files, root) {
+  const timeWindows = relativeTimeWindows();
+  for (let fileIndex = 0; fileIndex < files.length; fileIndex++) {
+    const file = files[fileIndex];
+    if (utils_isFolder(file)) {
+      continue;
+    }
+    const newFile = by_modified_spreadProps(by_modified_spreadValues({}, file), {
+      keyDerived: true
+    });
+    let allocated = false;
+    const fileModified = +newFile.modified;
+    for (let windex = 0; windex < timeWindows.length; windex++) {
+      const timeWindow = timeWindows[windex];
+      if (fileModified > +timeWindow.begins && fileModified <= +timeWindow.ends) {
+        timeWindow.items.push(newFile);
+        allocated = true;
+        break;
+      }
+    }
+    if (!allocated) {
+      const newWindow = {
+        name: Object(external_date_fns_["format"])(newFile.modified, "MMMM yyyy"),
+        begins: Object(external_date_fns_["startOfMonth"])(newFile.modified),
+        ends: Object(external_date_fns_["endOfMonth"])(newFile.modified),
+        items: []
+      };
+      newWindow.items.push(newFile);
+      timeWindows.push(newWindow);
+    }
+  }
+  const grouped = [];
+  for (let windex = 0; windex < timeWindows.length; windex++) {
+    const timeWindow = timeWindows[windex];
+    if (!timeWindow.items.length) {
+      continue;
+    }
+    grouped.push({
+      key: `${timeWindow.name.toLowerCase().replace(" ", "_")}/`,
+      name: timeWindow.name,
+      children: timeWindow.items,
+      size: 0
+    });
+  }
+  return grouped;
+});
+
+// CONCATENATED MODULE: ./src/groupers/index.js
+
+
+
+
+// CONCATENATED MODULE: ./src/sorters/utils.js
+const NUMBER_GROUPS = /(-?\d*\.?\d+)/g;
+function naturalSortComparer(a, b) {
+  const aa = String(a.name).split(NUMBER_GROUPS);
+  const bb = String(b.name).split(NUMBER_GROUPS);
+  const min = Math.min(aa.length, bb.length);
+  for (let i = 0; i < min; i++) {
+    const x = parseFloat(aa[i]) || aa[i].toLowerCase();
+    const y = parseFloat(bb[i]) || bb[i].toLowerCase();
+    if (x < y)
+      return -1;
+    else if (x > y)
+      return 1;
+  }
+  return 0;
+}
+
+
+// CONCATENATED MODULE: ./src/sorters/by-name.js
+
+function naturalDraftComparer(a, b) {
+  if (a.draft && !b.draft) {
+    return 1;
+  } else if (b.draft && !a.draft) {
+    return -1;
+  }
+  return naturalSortComparer(a, b);
+}
+function naturalSort(allFiles) {
+  let folders = [];
+  let files = [];
+  for (let fileIndex = 0; fileIndex < allFiles.length; fileIndex++) {
+    const file = allFiles[fileIndex];
+    const keyFolders = (file.newKey || file.key).split("/");
+    if (file.children) {
+      if (!file.name) {
+        file.name = keyFolders[keyFolders.length - 2];
+      }
+      folders.push(file);
+    } else {
+      if (!file.name) {
+        file.name = keyFolders[keyFolders.length - 1];
+      }
+      files.push(file);
+    }
+  }
+  files = files.sort(naturalSortComparer);
+  folders = folders.sort(naturalDraftComparer);
+  for (let folderIndex = 0; folderIndex < folders.length; folderIndex++) {
+    const folder = folders[folderIndex];
+    folder.children = naturalSort(folder.children);
+  }
+  let sortedFiles = [];
+  sortedFiles = sortedFiles.concat(folders);
+  sortedFiles = sortedFiles.concat(files);
+  return sortedFiles;
+}
+/* harmony default export */ var by_name = (function(files) {
+  return naturalSort(files);
+});
+
+// CONCATENATED MODULE: ./src/sorters/by-modified.js
+
+function lastModifiedSort(allFiles) {
+  const folders = [];
+  let files = [];
+  for (let fileIndex = 0; fileIndex < allFiles.length; fileIndex++) {
+    const file = allFiles[fileIndex];
+    const keyFolders = (file.newKey || file.key).split("/");
+    if (file.children) {
+      folders.push(file);
+    } else {
+      file.name = keyFolders[keyFolders.length - 1];
+      files.push(file);
+    }
+  }
+  files = files.sort(external_date_fns_["compareAsc"]);
+  for (let folderIndex = 0; folderIndex < folders.length; folderIndex++) {
+    const folder = folders[folderIndex];
+    folder.children = lastModifiedSort(folder.children);
+  }
+  let sortedFiles = [];
+  sortedFiles = sortedFiles.concat(folders);
+  sortedFiles = sortedFiles.concat(files);
+  return sortedFiles;
+}
+/* harmony default export */ var sorters_by_modified = (function(files) {
+  return lastModifiedSort(files);
+});
+
+// CONCATENATED MODULE: ./src/sorters/index.js
+
+
+
+
+// CONCATENATED MODULE: ./src/actions/default.js
+
+
+const Actions = (props) => {
+  const {
+    selectedItems,
+    isFolder,
+    icons,
+    nameFilter,
+    canCreateFolder,
+    onCreateFolder,
+    canRenameFile,
+    onRenameFile,
+    canRenameFolder,
+    onRenameFolder,
+    canDeleteFile,
+    onDeleteFile,
+    canDeleteFolder,
+    onDeleteFolder,
+    canDownloadFile,
+    onDownloadFile,
+    canDownloadFolder,
+    onDownloadFolder
+  } = props;
+  let actions = [];
+  if (selectedItems.length) {
+    const selectedItemsAction = selectedItems.filter((item) => item.action);
+    if (selectedItemsAction.length === selectedItems.length && [...new Set(selectedItemsAction)].length === 1) {
+      let actionText;
+      switch (selectedItemsAction[0].action) {
+        case "delete":
+          actionText = "Deleting ...";
+          break;
+        case "rename":
+          actionText = "Renaming ...";
+          break;
+        default:
+          actionText = "Moving ...";
+          break;
+      }
+      actions = /* @__PURE__ */ external_react_default.a.createElement("div", {
+        className: "item-actions"
+      }, icons.Loading, " ", actionText);
+    } else {
+      if (isFolder && canCreateFolder && !nameFilter) {
+        actions.push(/* @__PURE__ */ external_react_default.a.createElement("li", {
+          key: "action-add-folder"
+        }, /* @__PURE__ */ external_react_default.a.createElement("a", {
+          onClick: onCreateFolder,
+          href: "#",
+          role: "button"
+        }, icons.Folder, "\xA0Add Subfolder")));
+      }
+      const itemsWithoutKeyDerived = selectedItems.find((item) => !item.keyDerived);
+      if (!itemsWithoutKeyDerived && !isFolder && canRenameFile && selectedItems.length === 1) {
+        actions.push(/* @__PURE__ */ external_react_default.a.createElement("li", {
+          key: "action-rename"
+        }, /* @__PURE__ */ external_react_default.a.createElement("a", {
+          onClick: onRenameFile,
+          href: "#",
+          role: "button"
+        }, icons.Rename, "\xA0Rename")));
+      } else if (!itemsWithoutKeyDerived && isFolder && canRenameFolder) {
+        actions.push(/* @__PURE__ */ external_react_default.a.createElement("li", {
+          key: "action-rename"
+        }, /* @__PURE__ */ external_react_default.a.createElement("a", {
+          onClick: onRenameFolder,
+          href: "#",
+          role: "button"
+        }, icons.Rename, "\xA0Rename")));
+      }
+      if (!itemsWithoutKeyDerived && !isFolder && canDeleteFile) {
+        actions.push(/* @__PURE__ */ external_react_default.a.createElement("li", {
+          key: "action-delete"
+        }, /* @__PURE__ */ external_react_default.a.createElement("a", {
+          onClick: onDeleteFile,
+          href: "#",
+          role: "button"
+        }, icons.Delete, "\xA0Delete")));
+      } else if (!itemsWithoutKeyDerived && isFolder && canDeleteFolder) {
+        actions.push(/* @__PURE__ */ external_react_default.a.createElement("li", {
+          key: "action-delete"
+        }, /* @__PURE__ */ external_react_default.a.createElement("a", {
+          onClick: onDeleteFolder,
+          href: "#",
+          role: "button"
+        }, icons.Delete, "\xA0Delete")));
+      }
+      if (!isFolder && canDownloadFile || isFolder && canDownloadFolder) {
+        actions.push(/* @__PURE__ */ external_react_default.a.createElement("li", {
+          key: "action-download"
+        }, /* @__PURE__ */ external_react_default.a.createElement("a", {
+          onClick: isFolder ? onDownloadFolder : onDownloadFile,
+          href: "#",
+          role: "button"
+        }, icons.Download, "\xA0Download")));
+      }
+      if (actions.length) {
+        actions = /* @__PURE__ */ external_react_default.a.createElement("ul", {
+          className: "item-actions"
+        }, actions);
+      } else {
+        actions = /* @__PURE__ */ external_react_default.a.createElement("div", {
+          className: "item-actions"
+        }, "\xA0");
+      }
+    }
+  } else {
+    if (canCreateFolder && !nameFilter) {
+      actions.push(/* @__PURE__ */ external_react_default.a.createElement("li", {
+        key: "action-add-folder"
+      }, /* @__PURE__ */ external_react_default.a.createElement("a", {
+        onClick: onCreateFolder,
+        href: "#",
+        role: "button"
+      }, icons.Folder, "\xA0Add Folder")));
+    }
+    if (actions.length) {
+      actions = /* @__PURE__ */ external_react_default.a.createElement("ul", {
+        className: "item-actions"
+      }, actions);
+    } else {
+      actions = /* @__PURE__ */ external_react_default.a.createElement("div", {
+        className: "item-actions"
+      }, "\xA0");
+    }
+  }
+  return actions;
+};
+Actions.propTypes = {
+  selectedItems: external_prop_types_default.a.arrayOf(external_prop_types_default.a.object),
+  isFolder: external_prop_types_default.a.bool,
+  icons: external_prop_types_default.a.object,
+  nameFilter: external_prop_types_default.a.string,
+  canCreateFolder: external_prop_types_default.a.bool,
+  onCreateFolder: external_prop_types_default.a.func,
+  canRenameFile: external_prop_types_default.a.bool,
+  onRenameFile: external_prop_types_default.a.func,
+  canRenameFolder: external_prop_types_default.a.bool,
+  onRenameFolder: external_prop_types_default.a.func,
+  canDeleteFile: external_prop_types_default.a.bool,
+  onDeleteFile: external_prop_types_default.a.func,
+  canDeleteFolder: external_prop_types_default.a.bool,
+  onDeleteFolder: external_prop_types_default.a.func,
+  canDownloadFile: external_prop_types_default.a.bool,
+  onDownloadFile: external_prop_types_default.a.func,
+  canDownloadFolder: external_prop_types_default.a.bool,
+  onDownloadFolder: external_prop_types_default.a.func
+};
+Actions.defaultProps = {
+  selectedItems: [],
+  isFolder: false,
+  icons: {},
+  nameFilter: "",
+  canCreateFolder: false,
+  onCreateFolder: null,
+  canRenameFile: false,
+  onRenameFile: null,
+  canRenameFolder: false,
+  onRenameFolder: null,
+  canDeleteFile: false,
+  onDeleteFile: null,
+  canDeleteFolder: false,
+  onDeleteFolder: null,
+  canDownloadFile: false,
+  onDownloadFile: null,
+  canDownloadFolder: false,
+  onDownloadFolder: null
+};
+/* harmony default export */ var actions_default = (Actions);
+
+// CONCATENATED MODULE: ./src/actions/index.js
+
+
+
+// CONCATENATED MODULE: ./src/browser.js
+var browser_defProp = Object.defineProperty;
+var browser_defProps = Object.defineProperties;
+var browser_getOwnPropDescs = Object.getOwnPropertyDescriptors;
+var browser_getOwnPropSymbols = Object.getOwnPropertySymbols;
+var browser_hasOwnProp = Object.prototype.hasOwnProperty;
+var browser_propIsEnum = Object.prototype.propertyIsEnumerable;
+var browser_defNormalProp = (obj, key, value) => key in obj ? browser_defProp(obj, key, {enumerable: true, configurable: true, writable: true, value}) : obj[key] = value;
+var browser_spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (browser_hasOwnProp.call(b, prop))
+      browser_defNormalProp(a, prop, b[prop]);
+  if (browser_getOwnPropSymbols)
+    for (var prop of browser_getOwnPropSymbols(b)) {
+      if (browser_propIsEnum.call(b, prop))
+        browser_defNormalProp(a, prop, b[prop]);
+    }
+  return a;
+};
+var browser_spreadProps = (a, b) => browser_defProps(a, browser_getOwnPropDescs(b));
+var browser_publicField = (obj, key, value) => {
+  browser_defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
+  return value;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const SEARCH_RESULTS_PER_PAGE = 20;
+const regexForNewFolderOrFileSelection = /.*\/__new__[/]?$/gm;
+function getItemProps(file, browserProps) {
+  return {
+    key: `file-${file.key}`,
+    fileKey: file.key,
+    isSelected: browserProps.selection.includes(file.key),
+    isOpen: file.key in browserProps.openFolders || browserProps.nameFilter,
+    isRenaming: browserProps.activeAction === "rename" && browserProps.actionTargets.includes(file.key),
+    isDeleting: browserProps.activeAction === "delete" && browserProps.actionTargets.includes(file.key),
+    isDraft: !!file.draft
+  };
+}
+class browser_RawFileBrowser extends external_react_default.a.Component {
+  constructor() {
+    super(...arguments);
+    browser_publicField(this, "state", {
+      openFolders: {},
+      selection: [],
+      activeAction: null,
+      actionTargets: [],
+      nameFilter: "",
+      searchResultsShown: SEARCH_RESULTS_PER_PAGE,
+      previewFile: null,
+      addFolder: null
+    });
+    browser_publicField(this, "getFile", (key) => {
+      let hasPrefix = false;
+      const exactFolder = this.props.files.find((f) => {
+        if (f.key.startsWith(key)) {
+          hasPrefix = true;
+        }
+        return f.key === key;
+      });
+      if (exactFolder) {
+        return exactFolder;
+      }
+      if (hasPrefix) {
+        return {key, modified: 0, size: 0, relativeKey: key};
+      }
+    });
+    browser_publicField(this, "selectFiles", (selectedFiles) => {
+      console.log("select files", selectedFiles);
+      const folderSelection = [];
+      const fileSelection = [];
+      selectedFiles.map((file) => {
+        const pathArr = file.key.split("/");
+        const currentPath = [];
+        pathArr.map((pathPart, index) => {
+          if (pathPart) {
+            currentPath.push(pathPart);
+            if (index !== pathArr.length - 1) {
+              console.log("openFolder", currentPath.join("/"));
+              folderSelection.push(currentPath.join("/"));
+            } else {
+              console.log("newSelection", currentPath.join("/"));
+              if (!fileSelection.includes(currentPath.join("/"))) {
+                fileSelection.push({key: currentPath.join("/")});
+              }
+            }
+          }
+        });
+        this.setState({
+          openFolders: folderSelection,
+          selection: fileSelection
+        }, () => {
+          console.log("selection set");
+          setTimeout(() => {
+            this.forceUpdate();
+          }, 1e3);
+        });
+      });
+    });
+    browser_publicField(this, "createFiles", (files, prefix) => {
+      this.setState((prevState) => {
+        const stateChanges = {selection: []};
+        if (prefix) {
+          stateChanges.openFolders = browser_spreadProps(browser_spreadValues({}, prevState.openFolders), {
+            [prefix]: true
+          });
+        }
+        return stateChanges;
+      }, () => {
+        this.props.onCreateFiles(files, prefix);
+      });
+    });
+    browser_publicField(this, "createFolder", (key) => {
+      this.setState({
+        activeAction: null,
+        actionTargets: [],
+        selection: [key]
+      }, () => {
+        this.props.onCreateFolder(key);
+      });
+    });
+    browser_publicField(this, "moveFile", (oldKey, newKey) => {
+      this.setState({
+        activeAction: null,
+        actionTargets: [],
+        selection: [newKey]
+      }, () => {
+        this.props.onMoveFile(oldKey, newKey);
+      });
+    });
+    browser_publicField(this, "moveFolder", (oldKey, newKey) => {
+      this.setState((prevState) => {
+        const stateChanges = {
+          activeAction: null,
+          actionTargets: [],
+          selection: [newKey]
+        };
+        if (oldKey in prevState.openFolders) {
+          stateChanges.openFolders = browser_spreadProps(browser_spreadValues({}, prevState.openFolders), {
+            [newKey]: true
+          });
+        }
+        return stateChanges;
+      }, () => {
+        this.props.onMoveFolder(oldKey, newKey);
+      });
+    });
+    browser_publicField(this, "renameFile", (oldKey, newKey) => {
+      this.setState({
+        activeAction: null,
+        actionTargets: [],
+        selection: [newKey]
+      }, () => {
+        this.props.onRenameFile(oldKey, newKey);
+      });
+    });
+    browser_publicField(this, "renameFolder", (oldKey, newKey) => {
+      this.setState((prevState) => {
+        const stateChanges = {
+          activeAction: null,
+          actionTargets: []
+        };
+        if (prevState.selection[0].substr(0, oldKey.length) === oldKey) {
+          stateChanges.selection = [prevState.selection[0].replace(oldKey, newKey)];
+        }
+        if (oldKey in prevState.openFolders) {
+          stateChanges.openFolders = browser_spreadProps(browser_spreadValues({}, prevState.openFolders), {
+            [newKey]: true
+          });
+        }
+        return stateChanges;
+      }, () => {
+        this.props.onRenameFolder(oldKey, newKey);
+      });
+    });
+    browser_publicField(this, "deleteFile", (keys) => {
+      this.setState({
+        activeAction: null,
+        actionTargets: [],
+        selection: []
+      }, () => {
+        this.props.onDeleteFile(keys);
+      });
+    });
+    browser_publicField(this, "deleteFolder", (key) => {
+      this.setState((prevState) => {
+        const stateChanges = {
+          activeAction: null,
+          actionTargets: [],
+          selection: []
+        };
+        if (key in prevState.openFolders) {
+          stateChanges.openFolders = browser_spreadValues({}, prevState.openFolders);
+          delete stateChanges.openFolders[key];
+        }
+        return stateChanges;
+      }, () => {
+        this.props.onDeleteFolder(key);
+      });
+    });
+    browser_publicField(this, "downloadFile", (keys) => {
+      this.setState({
+        activeAction: null,
+        actionTargets: []
+      }, () => {
+        this.props.onDownloadFile(keys);
+      });
+    });
+    browser_publicField(this, "downloadFolder", (keys) => {
+      this.setState({
+        activeAction: null,
+        actionTargets: []
+      }, () => {
+        this.props.onDownloadFolder(keys);
+      });
+    });
+    browser_publicField(this, "beginAction", (action, keys) => {
+      this.setState({
+        activeAction: action,
+        actionTargets: keys || []
+      });
+    });
+    browser_publicField(this, "endAction", () => {
+      if (this.state.selection && this.state.selection.length > 0 && this.state.selection.filter((selection) => selection.match(regexForNewFolderOrFileSelection)).length > 0) {
+        this.setState({selection: []});
+      }
+      this.beginAction(null, null);
+    });
+    browser_publicField(this, "select", (key, selectedType, ctrlKey, shiftKey) => {
+      const {actionTargets} = this.state;
+      const shouldClearState = actionTargets.length && !actionTargets.includes(key);
+      const selected = this.getFile(key);
+      let newSelection = [key];
+      if (ctrlKey || shiftKey) {
+        const indexOfKey = this.state.selection.indexOf(key);
+        if (indexOfKey !== -1) {
+          newSelection = [...this.state.selection.slice(0, indexOfKey), ...this.state.selection.slice(indexOfKey + 1)];
+        } else {
+          newSelection = [...this.state.selection, key];
+        }
+      }
+      this.setState((prevState) => ({
+        selection: newSelection,
+        actionTargets: shouldClearState ? [] : actionTargets,
+        activeAction: shouldClearState ? null : prevState.activeAction
+      }), () => {
+        this.props.onSelect(selected);
+        if (selectedType === "file")
+          this.props.onSelectFile(selected);
+        if (selectedType === "folder")
+          this.props.onSelectFolder(selected);
+      });
+    });
+    browser_publicField(this, "preview", (file) => {
+      if (this.state.previewFile && this.state.previewFile.key !== file.key)
+        this.closeDetail();
+      this.setState({
+        previewFile: file
+      }, () => {
+        this.props.onPreviewOpen(file);
+      });
+    });
+    browser_publicField(this, "closeDetail", () => {
+      this.setState({
+        previewFile: null
+      }, () => {
+        this.props.onPreviewClose(this.state.previewFile);
+      });
+    });
+    browser_publicField(this, "handleShowMoreClick", (event) => {
+      event.preventDefault();
+      this.setState((prevState) => ({
+        searchResultsShown: prevState.searchResultsShown + SEARCH_RESULTS_PER_PAGE
+      }));
+    });
+    browser_publicField(this, "toggleFolder", (folderKey) => {
+      const isOpen = folderKey in this.state.openFolders;
+      this.setState((prevState) => {
+        const stateChanges = {
+          openFolders: browser_spreadValues({}, prevState.openFolders)
+        };
+        if (isOpen) {
+          delete stateChanges.openFolders[folderKey];
+        } else {
+          stateChanges.openFolders[folderKey] = true;
+        }
+        return stateChanges;
+      }, () => {
+        const callback = isOpen ? "onFolderClose" : "onFolderOpen";
+        this.props[callback](this.getFile(folderKey), this.getBrowserProps());
+      });
+    });
+    browser_publicField(this, "openFolder", (folderKey) => {
+      this.setState((prevState) => ({
+        openFolders: browser_spreadProps(browser_spreadValues({}, prevState.openFolders), {
+          [folderKey]: true
+        })
+      }), () => {
+        this.props.onFolderOpen(this.getFile(folderKey), this.getBrowserProps());
+      });
+    });
+    browser_publicField(this, "handleGlobalClick", (event) => {
+      const inBrowser = !!(this.browserRef && this.browserRef.contains(event.target));
+      if (!inBrowser) {
+        this.setState({
+          selection: [],
+          actionTargets: [],
+          activeAction: null
+        });
+      }
+    });
+    browser_publicField(this, "handleActionBarRenameClick", (event) => {
+      event.preventDefault();
+      this.beginAction("rename", this.state.selection);
+    });
+    browser_publicField(this, "handleActionBarDeleteClick", (event) => {
+      event.preventDefault();
+      this.beginAction("delete", this.state.selection);
+    });
+    browser_publicField(this, "handleActionBarAddFolderClick", (event) => {
+      event.preventDefault();
+      if (this.state.activeAction === "createFolder") {
+        return;
+      }
+      this.setState((prevState) => {
+        let addKey = "";
+        if (prevState.selection && prevState.selection.length > 0) {
+          addKey += prevState.selection;
+          if (addKey.substr(addKey.length - 1, addKey.length) !== "/") {
+            addKey += "/";
+          }
+        }
+        if (addKey !== "__new__/" && !addKey.endsWith("/__new__/"))
+          addKey += "__new__/";
+        const stateChanges = {
+          actionTargets: [addKey],
+          activeAction: "createFolder",
+          selection: [addKey]
+        };
+        if (prevState.selection && prevState.selection.length > 0) {
+          stateChanges.openFolders = browser_spreadProps(browser_spreadValues({}, prevState.openFolders), {
+            [this.state.selection]: true
+          });
+        }
+        return stateChanges;
+      });
+    });
+    browser_publicField(this, "handleActionBarDownloadClick", (event) => {
+      event.preventDefault();
+      const files = this.getFiles();
+      const selectedItems = this.getSelectedItems(files);
+      const selectionIsFolder = selectedItems.length === 1 && utils_isFolder(selectedItems[0]);
+      if (selectionIsFolder) {
+        this.downloadFolder(this.state.selection);
+        return;
+      }
+      this.downloadFile(this.state.selection);
+    });
+    browser_publicField(this, "updateFilter", (newValue) => {
+      this.setState({
+        nameFilter: newValue,
+        searchResultsShown: SEARCH_RESULTS_PER_PAGE
+      });
+    });
+    browser_publicField(this, "handleMultipleDeleteSubmit", () => {
+      console.log(this);
+      this.deleteFolder(this.state.selection.filter((selection) => selection[selection.length - 1] === "/"));
+      this.deleteFile(this.state.selection.filter((selection) => selection[selection.length - 1] !== "/"));
+    });
+  }
+  componentDidMount() {
+    console.log("browser did mount", this.props);
+    if (this.props.renderStyle === "table" && this.props.nestChildren) {
+      console.warn("Invalid settings: Cannot nest table children in file browser");
+    }
+    if (this.props.files.length && this.props.selectedFiles.length) {
+      this.selectFiles(this.props.selectedFiles);
+    }
+    window.addEventListener("click", this.handleGlobalClick);
+  }
+  componentWillUnmount() {
+    window.removeEventListener("click", this.handleGlobalClick);
+  }
+  getBrowserProps() {
+    return {
+      nestChildren: this.props.nestChildren,
+      fileRenderer: this.props.fileRenderer,
+      fileRendererProps: this.props.fileRendererProps,
+      folderRenderer: this.props.folderRenderer,
+      folderRendererProps: this.props.folderRendererProps,
+      confirmDeletionRenderer: this.props.confirmDeletionRenderer,
+      confirmMultipleDeletionRenderer: this.props.confirmMultipleDeletionRenderer,
+      icons: this.props.icons,
+      openFolders: this.state.openFolders,
+      nameFilter: this.state.nameFilter,
+      selection: this.state.selection,
+      activeAction: this.state.activeAction,
+      actionTargets: this.state.actionTargets,
+      select: this.select,
+      openFolder: this.openFolder,
+      toggleFolder: this.toggleFolder,
+      beginAction: this.beginAction,
+      endAction: this.endAction,
+      preview: this.preview,
+      createFiles: this.props.onCreateFiles ? this.createFiles : void 0,
+      createFolder: this.props.onCreateFolder ? this.createFolder : void 0,
+      renameFile: this.props.onRenameFile ? this.renameFile : void 0,
+      renameFolder: this.props.onRenameFolder ? this.renameFolder : void 0,
+      moveFile: this.props.onMoveFile ? this.moveFile : void 0,
+      moveFolder: this.props.onMoveFolder ? this.moveFolder : void 0,
+      deleteFile: this.props.onDeleteFile ? this.deleteFile : void 0,
+      deleteFolder: this.props.onDeleteFolder ? this.deleteFolder : void 0,
+      getItemProps
+    };
+  }
+  renderActionBar(selectedItems) {
+    const {
+      icons,
+      canFilter,
+      filterRendererProps,
+      filterRenderer: FilterRenderer,
+      actionRenderer: ActionRenderer,
+      onCreateFolder,
+      onRenameFile,
+      onRenameFolder,
+      onDeleteFile,
+      onDeleteFolder,
+      onDownloadFile,
+      onDownloadFolder
+    } = this.props;
+    const browserProps = this.getBrowserProps();
+    const selectionIsFolder = selectedItems.length === 1 && utils_isFolder(selectedItems[0]);
+    let filter;
+    if (canFilter) {
+      filter = /* @__PURE__ */ external_react_default.a.createElement(FilterRenderer, browser_spreadValues({
+        value: this.state.nameFilter,
+        updateFilter: this.updateFilter
+      }, filterRendererProps));
+    }
+    const actions = /* @__PURE__ */ external_react_default.a.createElement(ActionRenderer, {
+      browserProps,
+      selectedItems,
+      isFolder: selectionIsFolder,
+      icons,
+      nameFilter: this.state.nameFilter,
+      canCreateFolder: typeof onCreateFolder === "function",
+      onCreateFolder: this.handleActionBarAddFolderClick,
+      canRenameFile: typeof onRenameFile === "function",
+      onRenameFile: this.handleActionBarRenameClick,
+      canRenameFolder: typeof onRenameFolder === "function",
+      onRenameFolder: this.handleActionBarRenameClick,
+      canDeleteFile: typeof onDeleteFile === "function",
+      onDeleteFile: this.handleActionBarDeleteClick,
+      canDeleteFolder: typeof onDeleteFolder === "function",
+      onDeleteFolder: this.handleActionBarDeleteClick,
+      canDownloadFile: typeof onDownloadFile === "function",
+      onDownloadFile: this.handleActionBarDownloadClick,
+      canDownloadFolder: typeof onDownloadFolder === "function",
+      onDownloadFolder: this.handleActionBarDownloadClick
+    });
+    return /* @__PURE__ */ external_react_default.a.createElement("div", {
+      className: "action-bar"
+    }, filter, actions);
+  }
+  renderFiles(files, depth) {
+    const {
+      fileRenderer: FileRenderer,
+      fileRendererProps,
+      folderRenderer: FolderRenderer,
+      folderRendererProps
+    } = this.props;
+    const browserProps = this.getBrowserProps();
+    let renderedFiles = [];
+    files.map((file) => {
+      const thisItemProps = browser_spreadProps(browser_spreadValues({}, browserProps.getItemProps(file, browserProps)), {
+        depth: this.state.nameFilter ? 0 : depth
+      });
+      if (!utils_isFolder(file)) {
+        renderedFiles.push(/* @__PURE__ */ external_react_default.a.createElement(FileRenderer, browser_spreadValues(browser_spreadProps(browser_spreadValues(browser_spreadValues({}, file), thisItemProps), {
+          browserProps
+        }), fileRendererProps)));
+      } else {
+        if (this.props.showFoldersOnFilter || !this.state.nameFilter) {
+          renderedFiles.push(/* @__PURE__ */ external_react_default.a.createElement(FolderRenderer, browser_spreadValues(browser_spreadProps(browser_spreadValues(browser_spreadValues({}, file), thisItemProps), {
+            browserProps
+          }), folderRendererProps)));
+        }
+        if (this.state.nameFilter || thisItemProps.isOpen && !browserProps.nestChildren) {
+          renderedFiles = renderedFiles.concat(this.renderFiles(file.children, depth + 1));
+        }
+      }
+    });
+    return renderedFiles;
+  }
+  getFiles() {
+    let files = this.props.files.concat([]);
+    if (this.state.activeAction === "createFolder") {
+      files.push({
+        key: this.state.actionTargets[0],
+        size: 0,
+        draft: true
+      });
+    }
+    if (this.state.nameFilter) {
+      const filteredFiles = [];
+      const terms = this.state.nameFilter.toLowerCase().split(" ");
+      files.map((file) => {
+        let skip = false;
+        terms.map((term) => {
+          if (file.key.toLowerCase().trim().indexOf(term) === -1) {
+            skip = true;
+          }
+        });
+        if (skip) {
+          return;
+        }
+        filteredFiles.push(file);
+      });
+      files = filteredFiles;
+    }
+    if (typeof this.props.group === "function") {
+      files = this.props.group(files, "");
+    } else {
+      const newFiles = [];
+      files.map((file) => {
+        if (!utils_isFolder(file)) {
+          newFiles.push(file);
+        }
+      });
+      files = newFiles;
+    }
+    if (typeof this.props.sort === "function") {
+      files = this.props.sort(files);
+    }
+    return files;
+  }
+  getSelectedItems(files) {
+    const {selection} = this.state;
+    const selectedItems = [];
+    const findSelected = (item) => {
+      if (selection.includes(item.key)) {
+        selectedItems.push(item);
+      }
+      if (item.children) {
+        item.children.map(findSelected);
+      }
+    };
+    files.map(findSelected);
+    return selectedItems;
+  }
+  render() {
+    const browserProps = this.getBrowserProps();
+    const headerProps = {
+      browserProps,
+      fileKey: "",
+      fileCount: this.props.files.length
+    };
+    let renderedFiles;
+    console.log("browser render");
+    const files = this.getFiles();
+    const selectedItems = this.getSelectedItems(files);
+    let header;
+    let contents = this.renderFiles(files, 0);
+    switch (this.props.renderStyle) {
+      case "table":
+        if (!contents.length) {
+          if (this.state.nameFilter) {
+            contents = /* @__PURE__ */ external_react_default.a.createElement("tr", null, /* @__PURE__ */ external_react_default.a.createElement("td", {
+              colSpan: 100
+            }, this.props.noMatchingFilesMessage(this.state.nameFilter)));
+          } else {
+            contents = /* @__PURE__ */ external_react_default.a.createElement("tr", null, /* @__PURE__ */ external_react_default.a.createElement("td", {
+              colSpan: 100
+            }, this.props.noFilesMessage));
+          }
+        } else {
+          if (this.state.nameFilter) {
+            const numFiles = contents.length;
+            contents = contents.slice(0, this.state.searchResultsShown);
+            if (numFiles > contents.length) {
+              contents.push(/* @__PURE__ */ external_react_default.a.createElement("tr", {
+                key: "show-more"
+              }, /* @__PURE__ */ external_react_default.a.createElement("td", {
+                colSpan: 100
+              }, /* @__PURE__ */ external_react_default.a.createElement("a", {
+                onClick: this.handleShowMoreClick,
+                href: "#"
+              }, this.props.showMoreResults))));
+            }
+          }
+        }
+        if (this.props.headerRenderer) {
+          header = /* @__PURE__ */ external_react_default.a.createElement("thead", null, /* @__PURE__ */ external_react_default.a.createElement(this.props.headerRenderer, browser_spreadValues(browser_spreadValues({}, headerProps), this.props.headerRendererProps)));
+        }
+        renderedFiles = /* @__PURE__ */ external_react_default.a.createElement("table", {
+          cellSpacing: "0",
+          cellPadding: "0"
+        }, header, /* @__PURE__ */ external_react_default.a.createElement("tbody", null, contents));
+        break;
+      case "list":
+        if (!contents.length) {
+          if (this.state.nameFilter) {
+            contents = /* @__PURE__ */ external_react_default.a.createElement("p", {
+              className: "empty"
+            }, this.props.noMatchingFilesMessage(this.state.nameFilter));
+          } else {
+            contents = /* @__PURE__ */ external_react_default.a.createElement("p", {
+              className: "empty"
+            }, this.props.noFilesMessage);
+          }
+        } else {
+          let more;
+          if (this.state.nameFilter) {
+            const numFiles = contents.length;
+            contents = contents.slice(0, this.state.searchResultsShown);
+            if (numFiles > contents.length) {
+              more = /* @__PURE__ */ external_react_default.a.createElement("a", {
+                onClick: this.handleShowMoreClick,
+                href: "#"
+              }, this.props.showMoreResults);
+            }
+          }
+          contents = /* @__PURE__ */ external_react_default.a.createElement("div", null, /* @__PURE__ */ external_react_default.a.createElement("ul", null, contents), more);
+        }
+        if (this.props.headerRenderer) {
+          header = /* @__PURE__ */ external_react_default.a.createElement(this.props.headerRenderer, browser_spreadValues(browser_spreadValues({}, headerProps), this.props.headerRendererProps));
+        }
+        renderedFiles = /* @__PURE__ */ external_react_default.a.createElement("div", null, header, contents);
+        break;
+    }
+    const ConfirmMultipleDeletionRenderer = this.props.confirmMultipleDeletionRenderer;
+    return /* @__PURE__ */ external_react_default.a.createElement("div", {
+      className: "rendered-react-keyed-file-browser"
+    }, this.props.actions, /* @__PURE__ */ external_react_default.a.createElement("div", {
+      className: "rendered-file-browser",
+      ref: (el) => {
+        this.browserRef = el;
+      }
+    }, this.props.showActionBar && this.renderActionBar(selectedItems), this.state.activeAction === "delete" && this.state.selection.length > 1 && /* @__PURE__ */ external_react_default.a.createElement(ConfirmMultipleDeletionRenderer, {
+      handleDeleteSubmit: this.handleMultipleDeleteSubmit
+    }), /* @__PURE__ */ external_react_default.a.createElement("div", {
+      className: "files"
+    }, renderedFiles)), this.state.previewFile !== null && /* @__PURE__ */ external_react_default.a.createElement(this.props.detailRenderer, browser_spreadValues({
+      file: this.state.previewFile,
+      close: this.closeDetail
+    }, this.props.detailRendererProps)));
+  }
+}
+browser_publicField(browser_RawFileBrowser, "propTypes", {
+  files: external_prop_types_default.a.arrayOf(external_prop_types_default.a.shape({
+    key: external_prop_types_default.a.string.isRequired,
+    modified: external_prop_types_default.a.number,
+    size: external_prop_types_default.a.number
+  })).isRequired,
+  actions: external_prop_types_default.a.node,
+  showActionBar: external_prop_types_default.a.bool.isRequired,
+  canFilter: external_prop_types_default.a.bool.isRequired,
+  showFoldersOnFilter: external_prop_types_default.a.bool,
+  noFilesMessage: external_prop_types_default.a.oneOfType([external_prop_types_default.a.string, external_prop_types_default.a.object]),
+  noMatchingFilesMessage: external_prop_types_default.a.func,
+  showMoreResults: external_prop_types_default.a.oneOfType([external_prop_types_default.a.string, external_prop_types_default.a.object]),
+  group: external_prop_types_default.a.func.isRequired,
+  sort: external_prop_types_default.a.func.isRequired,
+  icons: external_prop_types_default.a.shape({
+    Folder: external_prop_types_default.a.element,
+    FolderOpen: external_prop_types_default.a.element,
+    File: external_prop_types_default.a.element,
+    PDF: external_prop_types_default.a.element,
+    Image: external_prop_types_default.a.element,
+    Delete: external_prop_types_default.a.element,
+    Rename: external_prop_types_default.a.element,
+    Loading: external_prop_types_default.a.element,
+    Download: external_prop_types_default.a.element
+  }),
+  nestChildren: external_prop_types_default.a.bool.isRequired,
+  renderStyle: external_prop_types_default.a.oneOf([
+    "list",
+    "table"
+  ]).isRequired,
+  startOpen: external_prop_types_default.a.bool.isRequired,
+  headerRenderer: external_prop_types_default.a.func,
+  headerRendererProps: external_prop_types_default.a.object,
+  filterRenderer: external_prop_types_default.a.func,
+  filterRendererProps: external_prop_types_default.a.object,
+  fileRenderer: external_prop_types_default.a.func,
+  fileRendererProps: external_prop_types_default.a.object,
+  folderRenderer: external_prop_types_default.a.func,
+  folderRendererProps: external_prop_types_default.a.object,
+  detailRenderer: external_prop_types_default.a.func,
+  detailRendererProps: external_prop_types_default.a.object,
+  actionRenderer: external_prop_types_default.a.func,
+  confirmDeletionRenderer: external_prop_types_default.a.func,
+  confirmMultipleDeletionRenderer: external_prop_types_default.a.func,
+  selectedFiles: external_prop_types_default.a.arrayOf(external_prop_types_default.a.shape({
+    key: external_prop_types_default.a.string.isRequired
+  })),
+  onCreateFiles: external_prop_types_default.a.oneOfType([external_prop_types_default.a.func, external_prop_types_default.a.bool]),
+  onCreateFolder: external_prop_types_default.a.oneOfType([external_prop_types_default.a.func, external_prop_types_default.a.bool]),
+  onMoveFile: external_prop_types_default.a.oneOfType([external_prop_types_default.a.func, external_prop_types_default.a.bool]),
+  onMoveFolder: external_prop_types_default.a.oneOfType([external_prop_types_default.a.func, external_prop_types_default.a.bool]),
+  onRenameFile: external_prop_types_default.a.oneOfType([external_prop_types_default.a.func, external_prop_types_default.a.bool]),
+  onRenameFolder: external_prop_types_default.a.oneOfType([external_prop_types_default.a.func, external_prop_types_default.a.bool]),
+  onDeleteFile: external_prop_types_default.a.oneOfType([external_prop_types_default.a.func, external_prop_types_default.a.bool]),
+  onDeleteFolder: external_prop_types_default.a.oneOfType([external_prop_types_default.a.func, external_prop_types_default.a.bool]),
+  onDownloadFile: external_prop_types_default.a.oneOfType([external_prop_types_default.a.func, external_prop_types_default.a.bool]),
+  onDownloadFolder: external_prop_types_default.a.oneOfType([external_prop_types_default.a.func, external_prop_types_default.a.bool]),
+  onSelect: external_prop_types_default.a.func,
+  onSelectFile: external_prop_types_default.a.func,
+  onSelectFolder: external_prop_types_default.a.func,
+  onPreviewOpen: external_prop_types_default.a.func,
+  onPreviewClose: external_prop_types_default.a.func,
+  onFolderOpen: external_prop_types_default.a.func,
+  onFolderClose: external_prop_types_default.a.func
+});
+browser_publicField(browser_RawFileBrowser, "defaultProps", {
+  showActionBar: true,
+  canFilter: true,
+  showFoldersOnFilter: false,
+  noFilesMessage: "Nincsenek f\xE1jlok",
+  noMatchingFilesMessage: (filter) => `Nincs ilyen f\xE1jl "${filter}".`,
+  showMoreResults: "T\xF6bb eredm\xE9ny mutat\xE1sa",
+  group: by_folder,
+  sort: by_name,
+  nestChildren: false,
+  renderStyle: "table",
+  startOpen: false,
+  headerRenderer: table,
+  headerRendererProps: {},
+  filterRenderer: filters_default,
+  filterRendererProps: {},
+  fileRenderer: files_table,
+  fileRendererProps: {},
+  folderRenderer: folders_table,
+  folderRendererProps: {},
+  detailRenderer: details_default,
+  detailRendererProps: {},
+  actionRenderer: actions_default,
+  confirmDeletionRenderer: confirmations_default,
+  confirmMultipleDeletionRenderer: multiple,
+  selectedFiles: [],
+  icons: {},
+  onSelect: (fileOrFolder) => {
+  },
+  onSelectFile: (file) => {
+  },
+  onSelectFolder: (folder) => {
+  },
+  onPreviewOpen: (file) => {
+  },
+  onPreviewClose: (file) => {
+  },
+  onFolderOpen: (folder) => {
+  },
+  onFolderClose: (folder) => {
+  }
+});
+class browser_FileBrowser extends external_react_["Component"] {
+  render() {
+    return /* @__PURE__ */ external_react_default.a.createElement(external_react_dnd_["DndProvider"], {
+      backend: external_react_dnd_html5_backend_["HTML5Backend"]
+    }, /* @__PURE__ */ external_react_default.a.createElement(browser_RawFileBrowser, browser_spreadValues({}, this.props)));
+  }
+}
+/* harmony default export */ var browser = (browser_FileBrowser);
+
+
+// CONCATENATED MODULE: ./src/icons/FontAwesome.js
+
+const IsFontAwesomeLoaded = (version) => {
+  const prefix = version === 4 ? "fa" : "fas";
+  const fontNames = version === 4 ? ["FontAwesome", '"FontAwesome"'] : ['"Font Awesome 5 Free"', '"Font Awesome 5 Pro"'];
+  let FontAwesomeLoaded = false;
+  const span = document.createElement("span");
+  span.className = prefix;
+  span.style.display = "none";
+  document.body.insertBefore(span, document.body.firstChild);
+  const css = (element, property) => window.getComputedStyle(element, null).getPropertyValue(property);
+  if (!fontNames.includes(css(span, "font-family"))) {
+    console.warn(`Font Awesome ${version} was not detected but Font Awesome ${version} icons have been requested for \`react-object-list\``);
+  } else {
+    FontAwesomeLoaded = true;
+  }
+  document.body.removeChild(span);
+  return FontAwesomeLoaded;
+};
+const FontAwesomeIcons = (majorVersion = 4) => {
+  switch (majorVersion) {
+    case 4:
+      IsFontAwesomeLoaded(4);
+      return {
+        File: /* @__PURE__ */ external_react_default.a.createElement("i", {
+          className: "fa fa-file-o",
+          "aria-hidden": "true"
+        }),
+        Image: /* @__PURE__ */ external_react_default.a.createElement("i", {
+          className: "fa fa-file-image-o",
+          "aria-hidden": "true"
+        }),
+        Video: /* @__PURE__ */ external_react_default.a.createElement("i", {
+          className: "fa fa-file-video-o",
+          "aria-hidden": "true"
+        }),
+        Audio: /* @__PURE__ */ external_react_default.a.createElement("i", {
+          className: "fa fa-file-audio-o",
+          "aria-hidden": "true"
+        }),
+        Archive: /* @__PURE__ */ external_react_default.a.createElement("i", {
+          className: "fa fa-file-archive-o",
+          "aria-hidden": "true"
+        }),
+        Word: /* @__PURE__ */ external_react_default.a.createElement("i", {
+          className: "fa fa-file-word-o",
+          "aria-hidden": "true"
+        }),
+        Excel: /* @__PURE__ */ external_react_default.a.createElement("i", {
+          className: "fa fa-file-excel-o",
+          "aria-hidden": "true"
+        }),
+        PowerPoint: /* @__PURE__ */ external_react_default.a.createElement("i", {
+          className: "fa fa-file-powerpoint-o",
+          "aria-hidden": "true"
+        }),
+        Text: /* @__PURE__ */ external_react_default.a.createElement("i", {
+          className: "fa fa-file-text-o",
+          "aria-hidden": "true"
+        }),
+        PDF: /* @__PURE__ */ external_react_default.a.createElement("i", {
+          className: "fa fa-file-pdf-o",
+          "aria-hidden": "true"
+        }),
+        Rename: /* @__PURE__ */ external_react_default.a.createElement("i", {
+          className: "fa fa-i-cursor",
+          "aria-hidden": "true"
+        }),
+        Folder: /* @__PURE__ */ external_react_default.a.createElement("i", {
+          className: "fa fa-folder-o",
+          "aria-hidden": "true"
+        }),
+        FolderOpen: /* @__PURE__ */ external_react_default.a.createElement("i", {
+          className: "fa fa-folder-open-o",
+          "aria-hidden": "true"
+        }),
+        Delete: /* @__PURE__ */ external_react_default.a.createElement("i", {
+          className: "fa fa-trash-o",
+          "aria-hidden": "true"
+        }),
+        Loading: /* @__PURE__ */ external_react_default.a.createElement("i", {
+          className: "fa fa-circle-o-notch fa-spin",
+          "aria-hidden": "true"
+        }),
+        Download: /* @__PURE__ */ external_react_default.a.createElement("i", {
+          className: "fa fa-download",
+          "aria-hidden": "true"
+        })
+      };
+    case 5:
+      IsFontAwesomeLoaded(5);
+      return {
+        File: /* @__PURE__ */ external_react_default.a.createElement("i", {
+          className: "far fa-file",
+          "aria-hidden": "true"
+        }),
+        Image: /* @__PURE__ */ external_react_default.a.createElement("i", {
+          className: "far fa-file-image",
+          "aria-hidden": "true"
+        }),
+        Video: /* @__PURE__ */ external_react_default.a.createElement("i", {
+          className: "far fa-file-video",
+          "aria-hidden": "true"
+        }),
+        Audio: /* @__PURE__ */ external_react_default.a.createElement("i", {
+          className: "far fa-file-audio",
+          "aria-hidden": "true"
+        }),
+        Archive: /* @__PURE__ */ external_react_default.a.createElement("i", {
+          className: "far fa-file-archive",
+          "aria-hidden": "true"
+        }),
+        Word: /* @__PURE__ */ external_react_default.a.createElement("i", {
+          className: "far fa-file-word",
+          "aria-hidden": "true"
+        }),
+        Excel: /* @__PURE__ */ external_react_default.a.createElement("i", {
+          className: "far fa-file-excel",
+          "aria-hidden": "true"
+        }),
+        PowerPoint: /* @__PURE__ */ external_react_default.a.createElement("i", {
+          className: "far fa-file-powerpoint",
+          "aria-hidden": "true"
+        }),
+        Text: /* @__PURE__ */ external_react_default.a.createElement("i", {
+          className: "far fa-file-alt",
+          "aria-hidden": "true"
+        }),
+        PDF: /* @__PURE__ */ external_react_default.a.createElement("i", {
+          className: "far fa-file-pdf",
+          "aria-hidden": "true"
+        }),
+        Rename: /* @__PURE__ */ external_react_default.a.createElement("i", {
+          className: "fas fa-i-cursor",
+          "aria-hidden": "true"
+        }),
+        Folder: /* @__PURE__ */ external_react_default.a.createElement("i", {
+          className: "far fa-folder",
+          "aria-hidden": "true"
+        }),
+        FolderOpen: /* @__PURE__ */ external_react_default.a.createElement("i", {
+          className: "far fa-folder-open",
+          "aria-hidden": "true"
+        }),
+        Delete: /* @__PURE__ */ external_react_default.a.createElement("i", {
+          className: "far fa-trash-alt",
+          "aria-hidden": "true"
+        }),
+        Loading: /* @__PURE__ */ external_react_default.a.createElement("i", {
+          className: "fas fa-circle-notch fa-spin",
+          "aria-hidden": "true"
+        }),
+        Download: /* @__PURE__ */ external_react_default.a.createElement("i", {
+          className: "fas fa-download",
+          "aria-hidden": "true"
+        })
+      };
+    default:
+      console.warn(`Could not find config for version ${majorVersion}`, "Accepted versions are: 4, 5", "Please make an issue in `react-object-list` to fix this.");
+  }
+};
+/* harmony default export */ var FontAwesome = (FontAwesomeIcons);
+
+// CONCATENATED MODULE: ./src/icons/index.js
+
+
+// CONCATENATED MODULE: ./src/index.js
+
+
+
+
+
+
+
+
+
+
+
+
+/* harmony default export */ var src = __webpack_exports__["default"] = (browser);
+
+
+
+/***/ })
+/******/ ]);
+});
