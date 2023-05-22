@@ -87,7 +87,9 @@ class RawFileBrowser extends React.Component {
     actionRenderer: PropTypes.func,
     confirmDeletionRenderer: PropTypes.func,
     confirmMultipleDeletionRenderer: PropTypes.func,
-    selectFiles: PropTypes.func,
+    selectedFiles: PropTypes.arrayOf(PropTypes.shape({
+      key: PropTypes.string.isRequired,
+    })),
 
     onCreateFiles: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     onCreateFolder: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
@@ -140,7 +142,7 @@ class RawFileBrowser extends React.Component {
     actionRenderer: DefaultAction,
     confirmDeletionRenderer: DefaultConfirmDeletion,
     confirmMultipleDeletionRenderer: MultipleConfirmDeletion,
-    selectFiles: this.selectFiles,
+    selectedFiles: [],
 
     icons: {},
 
@@ -173,6 +175,9 @@ class RawFileBrowser extends React.Component {
     if (this.props.renderStyle === 'table' && this.props.nestChildren) {
       console.warn('Invalid settings: Cannot nest table children in file browser')
     }
+    if (this.props.selectedFiles.length) {
+      this.selectFiles(this.props.selectedFiles)
+    }
 
     window.addEventListener('click', this.handleGlobalClick)
   }
@@ -198,8 +203,10 @@ class RawFileBrowser extends React.Component {
   }
 
   selectFiles = (files) => {
-    console.log('selectFiles', files)
-    // this.setState()
+    console.log('select files', files)
+    files.map((file) => {
+      this.select(file.key, 'file', files.length > 1)
+    })
   }
 
   // item manipulation
