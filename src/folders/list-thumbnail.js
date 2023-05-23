@@ -13,7 +13,7 @@ class RawListThumbnailFolder extends BaseFolder {
   render() {
     const {
       isOpen, isDragging, isDeleting, isRenaming, isDraft, isOver, isSelected,
-      url, action, browserProps, depth, keyDerived, connectDragPreview,
+      url, action, browserProps, depth, keyDerived, connectDragPreview, children
     } = this.props
 
     const icon = browserProps.icons[isOpen ? 'FolderOpen' : 'Folder']
@@ -58,10 +58,10 @@ class RawListThumbnailFolder extends BaseFolder {
       )
     }
 
-    let children
+    let folderChildren
     console.log('list thumbnail children')
     if (isOpen && browserProps.nestChildren) {
-      children = []
+      folderChildren = []
       for (let childIndex = 0; childIndex < children.length; childIndex++) {
         const file = children[childIndex]
 
@@ -71,7 +71,7 @@ class RawListThumbnailFolder extends BaseFolder {
         }
 
         if (!isFolder(file)) {
-          children.push(
+          folderChildren.push(
             <browserProps.fileRenderer
               {...file}
               {...thisItemProps}
@@ -80,7 +80,7 @@ class RawListThumbnailFolder extends BaseFolder {
             />
           )
         } else {
-          children.push(
+          folderChildren.push(
             <browserProps.folderRenderer
               {...file}
               {...thisItemProps}
@@ -90,10 +90,10 @@ class RawListThumbnailFolder extends BaseFolder {
           )
         }
       }
-      if (children.length) {
-        children = (<ul style={{ padding: '0 8px', paddingLeft: '16px' }}>{children}</ul>)
+      if (folderChildren.length) {
+        folderChildren = (<ul style={{ padding: '0 8px', paddingLeft: '16px' }}>{folderChildren}</ul>)
       } else {
-        children = (<p>No items in this folder</p>)
+        folderChildren = (<p>Nincs fájl ebben a könyvtárban</p>)
       }
     }
 
@@ -111,9 +111,9 @@ class RawListThumbnailFolder extends BaseFolder {
       >
         <div className="item">
           <span className="thumb">{icon}</span>
-          <span className="name">{name}</span>
+          <span className="name">{name} <small><i>({children.length} fájl)</i></small></span>
         </div>
-        {children}
+        {folderChildren}
       </li>
     )
     if (typeof browserProps.moveFolder === 'function' && keyDerived) {

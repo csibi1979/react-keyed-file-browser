@@ -1159,7 +1159,8 @@ class list_thumbnail_RawListThumbnailFolder extends base_folder {
       browserProps,
       depth,
       keyDerived,
-      connectDragPreview
+      connectDragPreview,
+      children
     } = this.props;
     const icon = browserProps.icons[isOpen ? "FolderOpen" : "Folder"];
     const inAction = isDragging || action;
@@ -1188,31 +1189,31 @@ class list_thumbnail_RawListThumbnailFolder extends base_folder {
         onClick: this.toggleFolder
       }, this.getName()));
     }
-    let children;
+    let folderChildren;
     console.log("list thumbnail children");
     if (isOpen && browserProps.nestChildren) {
-      children = [];
+      folderChildren = [];
       for (let childIndex = 0; childIndex < children.length; childIndex++) {
         const file = children[childIndex];
         const thisItemProps = list_thumbnail_spreadProps(list_thumbnail_spreadValues({}, browserProps.getItemProps(file, browserProps)), {
           depth: depth + 1
         });
         if (!utils_isFolder(file)) {
-          children.push(/* @__PURE__ */ external_react_default.a.createElement(browserProps.fileRenderer, list_thumbnail_spreadValues(list_thumbnail_spreadProps(list_thumbnail_spreadValues(list_thumbnail_spreadValues({}, file), thisItemProps), {
+          folderChildren.push(/* @__PURE__ */ external_react_default.a.createElement(browserProps.fileRenderer, list_thumbnail_spreadValues(list_thumbnail_spreadProps(list_thumbnail_spreadValues(list_thumbnail_spreadValues({}, file), thisItemProps), {
             browserProps
           }), browserProps.fileRendererProps)));
         } else {
-          children.push(/* @__PURE__ */ external_react_default.a.createElement(browserProps.folderRenderer, list_thumbnail_spreadValues(list_thumbnail_spreadProps(list_thumbnail_spreadValues(list_thumbnail_spreadValues({}, file), thisItemProps), {
+          folderChildren.push(/* @__PURE__ */ external_react_default.a.createElement(browserProps.folderRenderer, list_thumbnail_spreadValues(list_thumbnail_spreadProps(list_thumbnail_spreadValues(list_thumbnail_spreadValues({}, file), thisItemProps), {
             browserProps
           }), browserProps.folderRendererProps)));
         }
       }
-      if (children.length) {
-        children = /* @__PURE__ */ external_react_default.a.createElement("ul", {
+      if (folderChildren.length) {
+        folderChildren = /* @__PURE__ */ external_react_default.a.createElement("ul", {
           style: {padding: "0 8px", paddingLeft: "16px"}
-        }, children);
+        }, folderChildren);
       } else {
-        children = /* @__PURE__ */ external_react_default.a.createElement("p", null, "No items in this folder");
+        folderChildren = /* @__PURE__ */ external_react_default.a.createElement("p", null, "Nincs f\xE1jl ebben a k\xF6nyvt\xE1rban");
       }
     }
     let folder = /* @__PURE__ */ external_react_default.a.createElement("li", {
@@ -1231,7 +1232,7 @@ class list_thumbnail_RawListThumbnailFolder extends base_folder {
       className: "thumb"
     }, icon), /* @__PURE__ */ external_react_default.a.createElement("span", {
       className: "name"
-    }, name)), children);
+    }, name, " ", /* @__PURE__ */ external_react_default.a.createElement("small", null, /* @__PURE__ */ external_react_default.a.createElement("i", null, "(", children.length, " f\xE1jl)")))), folderChildren);
     if (typeof browserProps.moveFolder === "function" && keyDerived) {
       folder = connectDragPreview(folder);
     }
