@@ -1187,7 +1187,7 @@ class list_thumbnail_RawListThumbnailFolder extends base_folder {
     } else {
       name = /* @__PURE__ */ external_react_default.a.createElement("div", null, /* @__PURE__ */ external_react_default.a.createElement("a", {
         onClick: this.toggleFolder
-      }, this.getName(), " ", /* @__PURE__ */ external_react_default.a.createElement("small", null, /* @__PURE__ */ external_react_default.a.createElement("i", null, "(", children.length, " f\xE1jl)"))));
+      }, this.getName(), " ", /* @__PURE__ */ external_react_default.a.createElement("small", null, /* @__PURE__ */ external_react_default.a.createElement("i", null, "(", children.length, " elem)"))));
     }
     let folderChildren;
     if (isOpen && browserProps.nestChildren) {

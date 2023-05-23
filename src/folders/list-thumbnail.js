@@ -52,7 +52,7 @@ class RawListThumbnailFolder extends BaseFolder {
       name = (
         <div>
           <a onClick={this.toggleFolder}>
-            {this.getName()} <small><i>({children.length} fájl)</i></small>
+            {this.getName()} <small><i>({children.length} elem)</i></small>
           </a>
         </div>
       )
