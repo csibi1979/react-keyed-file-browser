@@ -1920,7 +1920,6 @@ class browser_RawFileBrowser extends external_react_default.a.Component {
     });
     browser_publicField(this, "selectFiles", (selectedFiles) => {
       console.log("select files", selectedFiles);
-      const folderSelection = [];
       const fileSelection = [];
       selectedFiles.map((file) => {
         const pathArr = file.split("/");
@@ -1930,7 +1929,7 @@ class browser_RawFileBrowser extends external_react_default.a.Component {
             currentPath.push(pathPart);
             if (index !== pathArr.length - 1) {
               console.log("openFolder", currentPath.join("/"));
-              folderSelection.push(currentPath.join("/"));
+              this.openFolder(currentPath.join("/") + "/");
             } else {
               console.log("newSelection", currentPath.join("/"));
               if (!fileSelection.includes(currentPath.join("/"))) {
@@ -1940,13 +1939,9 @@ class browser_RawFileBrowser extends external_react_default.a.Component {
           }
         });
         this.setState({
-          openFolders: folderSelection,
           selection: fileSelection
         }, () => {
           console.log("selection set");
-          setTimeout(() => {
-            this.forceUpdate();
-          }, 1e3);
         });
       });
     });

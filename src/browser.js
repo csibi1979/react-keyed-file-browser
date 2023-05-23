@@ -202,7 +202,7 @@ class RawFileBrowser extends React.Component {
 
   selectFiles = (selectedFiles) => {
     console.log('select files', selectedFiles)
-    const folderSelection = []
+    // const folderSelection = []
     const fileSelection = []
     selectedFiles.map((file) => {
       const pathArr = file.split('/')
@@ -212,7 +212,8 @@ class RawFileBrowser extends React.Component {
           currentPath.push(pathPart)
           if (index !== pathArr.length - 1) {
             console.log('openFolder', currentPath.join('/'))
-            folderSelection.push(currentPath.join('/'))
+            this.openFolder(currentPath.join('/') + '/')
+            // folderSelection.push(currentPath.join('/'))
           } else {
             console.log('newSelection', currentPath.join('/'))
             if (!fileSelection.includes(currentPath.join('/'))) {
@@ -222,13 +223,13 @@ class RawFileBrowser extends React.Component {
         }
       })
       this.setState({
-        openFolders: folderSelection,
+        // openFolders: folderSelection,
         selection: fileSelection,
       }, () => {
         console.log('selection set')
-        setTimeout(() => {
-          this.forceUpdate()
-        }, 1000)
+        // setTimeout(() => {
+        //   this.forceUpdate()
+        // }, 1000)
       })
     })
   }
