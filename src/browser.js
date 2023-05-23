@@ -176,9 +176,6 @@ class RawFileBrowser extends React.Component {
     if (this.props.renderStyle === 'table' && this.props.nestChildren) {
       console.warn('Invalid settings: Cannot nest table children in file browser')
     }
-    if (this.props.files.length && this.props.selectedFiles.length) {
-      this.selectFiles(this.props.selectedFiles)
-    }
 
     window.addEventListener('click', this.handleGlobalClick)
   }
