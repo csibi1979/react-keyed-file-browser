@@ -177,11 +177,11 @@ class RawFileBrowser extends React.Component {
       console.warn('Invalid settings: Cannot nest table children in file browser')
     }
 
-    window.addEventListener('click', this.handleGlobalClick)
+    // window.addEventListener('click', this.handleGlobalClick)
   }
 
   componentWillUnmount() {
-    window.removeEventListener('click', this.handleGlobalClick)
+    // window.removeEventListener('click', this.handleGlobalClick)
   }
 
   getFile = (key) => {
