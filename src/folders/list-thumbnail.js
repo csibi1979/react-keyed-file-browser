@@ -59,6 +59,7 @@ class RawListThumbnailFolder extends BaseFolder {
     }
 
     let children
+    console.log('list thumbnail children')
     if (isOpen && browserProps.nestChildren) {
       children = []
       for (let childIndex = 0; childIndex < children.length; childIndex++) {
@@ -124,7 +125,7 @@ class RawListThumbnailFolder extends BaseFolder {
 }
 
 const ListThumbnailFolder = flow(
-  DragSource('folder', BaseFolderConnectors.dragSource, BaseFolderConnectors.dragCollect), 
+  DragSource('folder', BaseFolderConnectors.dragSource, BaseFolderConnectors.dragCollect),
   DropTarget(['file', 'folder', NativeTypes.FILE], BaseFileConnectors.targetSource, BaseFileConnectors.targetCollect)
 )(RawListThumbnailFolder)
 

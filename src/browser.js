@@ -657,6 +657,7 @@ class RawFileBrowser extends React.Component {
         )
       } else {
         if (this.props.showFoldersOnFilter || !this.state.nameFilter) {
+          console.log('FolderRenderer', file, thisItemProps)
           renderedFiles.push(
             <FolderRenderer
               {...file}

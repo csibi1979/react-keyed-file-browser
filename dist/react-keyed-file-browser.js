@@ -1189,6 +1189,7 @@ class list_thumbnail_RawListThumbnailFolder extends base_folder {
       }, this.getName()));
     }
     let children;
+    console.log("list thumbnail children");
     if (isOpen && browserProps.nestChildren) {
       children = [];
       for (let childIndex = 0; childIndex < children.length; childIndex++) {
@@ -2320,6 +2321,7 @@ class browser_RawFileBrowser extends external_react_default.a.Component {
         }), fileRendererProps)));
       } else {
         if (this.props.showFoldersOnFilter || !this.state.nameFilter) {
+          console.log("FolderRenderer", file, thisItemProps);
           renderedFiles.push(/* @__PURE__ */ external_react_default.a.createElement(FolderRenderer, browser_spreadValues(browser_spreadProps(browser_spreadValues(browser_spreadValues({}, file), thisItemProps), {
             browserProps
           }), folderRendererProps)));
