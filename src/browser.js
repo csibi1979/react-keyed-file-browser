@@ -205,7 +205,7 @@ class RawFileBrowser extends React.Component {
     const folderSelection = []
     const fileSelection = []
     selectedFiles.map((file) => {
-      const pathArr = file.key.split('/')
+      const pathArr = file.split('/')
       const currentPath = []
       pathArr.map((pathPart, index) => {
         if (pathPart) {
@@ -216,7 +216,7 @@ class RawFileBrowser extends React.Component {
           } else {
             console.log('newSelection', currentPath.join('/'))
             if (!fileSelection.includes(currentPath.join('/'))) {
-              fileSelection.push({ key: currentPath.join('/') })
+              fileSelection.push(currentPath.join('/'))
             }
           }
         }
