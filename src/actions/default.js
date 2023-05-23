@@ -70,7 +70,7 @@ const Actions = (props) => {
               role="button"
             >
               {icons.Folder}
-              &nbsp;Add Subfolder
+              &nbsp;Új alkönyvtár
             </a>
           </li>
         )
@@ -165,7 +165,7 @@ const Actions = (props) => {
             role="button"
           >
             {icons.Folder}
-            &nbsp;Add Folder
+            &nbsp;Új könyvtár
           </a>
         </li>
       )

@@ -791,7 +791,7 @@ class list_thumbnail_RawListThumbnailFile extends base_file {
     let modified;
     if (showModified) {
       if (!isRenaming && !isDeleting) {
-        modified = /* @__PURE__ */ external_react_default.a.createElement("span", {
+        modified = /* @__PURE__ */ external_react_default.a.createElement("small", {
           className: "modified"
         }, "M\xF3dos\xEDtva: ", Object(external_date_fns_["formatDistanceToNow"])(this.props.modified, {addSuffix: true, locale: locale_["hu"]}));
       }
@@ -1715,7 +1715,7 @@ const Actions = (props) => {
           onClick: onCreateFolder,
           href: "#",
           role: "button"
-        }, icons.Folder, "\xA0Add Subfolder")));
+        }, icons.Folder, "\xA0\xDAj alk\xF6nyvt\xE1r")));
       }
       const itemsWithoutKeyDerived = selectedItems.find((item) => !item.keyDerived);
       if (!itemsWithoutKeyDerived && !isFolder && canRenameFile && selectedItems.length === 1) {
@@ -1779,7 +1779,7 @@ const Actions = (props) => {
         onClick: onCreateFolder,
         href: "#",
         role: "button"
-      }, icons.Folder, "\xA0Add Folder")));
+      }, icons.Folder, "\xA0\xDAj k\xF6nyvt\xE1r")));
     }
     if (actions.length) {
       actions = /* @__PURE__ */ external_react_default.a.createElement("ul", {
@@ -1919,7 +1919,6 @@ class browser_RawFileBrowser extends external_react_default.a.Component {
       }
     });
     browser_publicField(this, "selectFiles", (selectedFiles) => {
-      console.log("select files", selectedFiles);
       const fileSelection = [];
       selectedFiles.map((file) => {
         const pathArr = file.split("/");
@@ -1928,10 +1927,8 @@ class browser_RawFileBrowser extends external_react_default.a.Component {
           if (pathPart) {
             currentPath.push(pathPart);
             if (index !== pathArr.length - 1) {
-              console.log("openFolder", currentPath.join("/"));
               this.openFolder(currentPath.join("/") + "/");
             } else {
-              console.log("newSelection", currentPath.join("/"));
               if (!fileSelection.includes(currentPath.join("/"))) {
                 fileSelection.push(currentPath.join("/"));
               }
@@ -1941,7 +1938,6 @@ class browser_RawFileBrowser extends external_react_default.a.Component {
         this.setState({
           selection: fileSelection
         }, () => {
-          console.log("selection set");
         });
       });
     });
@@ -2211,13 +2207,11 @@ class browser_RawFileBrowser extends external_react_default.a.Component {
       });
     });
     browser_publicField(this, "handleMultipleDeleteSubmit", () => {
-      console.log(this);
       this.deleteFolder(this.state.selection.filter((selection) => selection[selection.length - 1] === "/"));
       this.deleteFile(this.state.selection.filter((selection) => selection[selection.length - 1] !== "/"));
     });
   }
   componentDidMount() {
-    console.log("browser did mount", this.props);
     if (this.props.renderStyle === "table" && this.props.nestChildren) {
       console.warn("Invalid settings: Cannot nest table children in file browser");
     }
@@ -2401,7 +2395,6 @@ class browser_RawFileBrowser extends external_react_default.a.Component {
       fileCount: this.props.files.length
     };
     let renderedFiles;
-    console.log("browser render");
     const files = this.getFiles();
     const selectedItems = this.getSelectedItems(files);
     let header;

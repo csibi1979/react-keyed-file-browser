@@ -172,7 +172,7 @@ class RawFileBrowser extends React.Component {
   }
 
   componentDidMount() {
-    console.log('browser did mount', this.props)
+    // console.log('browser did mount', this.props)
     if (this.props.renderStyle === 'table' && this.props.nestChildren) {
       console.warn('Invalid settings: Cannot nest table children in file browser')
     }
@@ -201,8 +201,7 @@ class RawFileBrowser extends React.Component {
   }
 
   selectFiles = (selectedFiles) => {
-    console.log('select files', selectedFiles)
-    // const folderSelection = []
+    // console.log('select files', selectedFiles)
     const fileSelection = []
     selectedFiles.map((file) => {
       const pathArr = file.split('/')
@@ -211,11 +210,10 @@ class RawFileBrowser extends React.Component {
         if (pathPart) {
           currentPath.push(pathPart)
           if (index !== pathArr.length - 1) {
-            console.log('openFolder', currentPath.join('/'))
+            // console.log('openFolder', currentPath.join('/'))
             this.openFolder(currentPath.join('/') + '/')
-            // folderSelection.push(currentPath.join('/'))
           } else {
-            console.log('newSelection', currentPath.join('/'))
+            // console.log('newSelection', currentPath.join('/'))
             if (!fileSelection.includes(currentPath.join('/'))) {
               fileSelection.push(currentPath.join('/'))
             }
@@ -223,13 +221,9 @@ class RawFileBrowser extends React.Component {
         }
       })
       this.setState({
-        // openFolders: folderSelection,
         selection: fileSelection,
       }, () => {
-        console.log('selection set')
-        // setTimeout(() => {
-        //   this.forceUpdate()
-        // }, 1000)
+        // console.log('selection set')
       })
     })
   }
@@ -681,7 +675,7 @@ class RawFileBrowser extends React.Component {
   }
 
   handleMultipleDeleteSubmit = () => {
-    console.log(this)
+    // console.log(this)
     this.deleteFolder(this.state.selection.filter(selection => selection[selection.length - 1] === '/'))
     this.deleteFile(this.state.selection.filter(selection => selection[selection.length - 1] !== '/'))
   }
@@ -752,7 +746,7 @@ class RawFileBrowser extends React.Component {
       fileCount: this.props.files.length,
     }
     let renderedFiles
-    console.log('browser render')
+    // console.log('browser render')
 
     const files = this.getFiles()
     const selectedItems = this.getSelectedItems(files)
