@@ -52,14 +52,13 @@ class RawListThumbnailFolder extends BaseFolder {
       name = (
         <div>
           <a onClick={this.toggleFolder}>
-            {this.getName()}
+            {this.getName()} <small><i>({children.length} fájl)</i></small>
           </a>
         </div>
       )
     }
 
     let folderChildren
-    console.log('list thumbnail children')
     if (isOpen && browserProps.nestChildren) {
       folderChildren = []
       for (let childIndex = 0; childIndex < children.length; childIndex++) {
@@ -111,7 +110,7 @@ class RawListThumbnailFolder extends BaseFolder {
       >
         <div className="item">
           <span className="thumb">{icon}</span>
-          <span className="name">{name} <small><i>({children.length} fájl)</i></small></span>
+          <span className="name">{name}</span>
         </div>
         {folderChildren}
       </li>

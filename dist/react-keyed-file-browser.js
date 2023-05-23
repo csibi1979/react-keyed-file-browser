@@ -1187,10 +1187,9 @@ class list_thumbnail_RawListThumbnailFolder extends base_folder {
     } else {
       name = /* @__PURE__ */ external_react_default.a.createElement("div", null, /* @__PURE__ */ external_react_default.a.createElement("a", {
         onClick: this.toggleFolder
-      }, this.getName()));
+      }, this.getName(), " ", /* @__PURE__ */ external_react_default.a.createElement("small", null, /* @__PURE__ */ external_react_default.a.createElement("i", null, "(", children.length, " f\xE1jl)"))));
     }
     let folderChildren;
-    console.log("list thumbnail children");
     if (isOpen && browserProps.nestChildren) {
       folderChildren = [];
       for (let childIndex = 0; childIndex < children.length; childIndex++) {
@@ -1232,7 +1231,7 @@ class list_thumbnail_RawListThumbnailFolder extends base_folder {
       className: "thumb"
     }, icon), /* @__PURE__ */ external_react_default.a.createElement("span", {
       className: "name"
-    }, name, " ", /* @__PURE__ */ external_react_default.a.createElement("small", null, /* @__PURE__ */ external_react_default.a.createElement("i", null, "(", children.length, " f\xE1jl)")))), folderChildren);
+    }, name)), folderChildren);
     if (typeof browserProps.moveFolder === "function" && keyDerived) {
       folder = connectDragPreview(folder);
     }
@@ -2322,7 +2321,6 @@ class browser_RawFileBrowser extends external_react_default.a.Component {
         }), fileRendererProps)));
       } else {
         if (this.props.showFoldersOnFilter || !this.state.nameFilter) {
-          console.log("FolderRenderer", file, thisItemProps);
           renderedFiles.push(/* @__PURE__ */ external_react_default.a.createElement(FolderRenderer, browser_spreadValues(browser_spreadProps(browser_spreadValues(browser_spreadValues({}, file), thisItemProps), {
             browserProps
           }), folderRendererProps)));
