@@ -82,11 +82,17 @@ div.rendered-file-browser
         &.file
           margin: $file-spacing
           padding: 0
+          overflow: hidden
           > div.item
             display: flex
             flex-direction: column
             padding: 4px
             margin: 0
+
+            span.name
+              text-overflow: ellipsis
+              overflow: hidden
+              white-space: nowrap
 
             span.thumb
               flex-basis: $thumb-size

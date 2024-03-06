@@ -144,12 +144,18 @@ div.rendered-file-browser div.files ul {
       border: none; }
   div.rendered-file-browser div.files ul li.file {
     margin: 4px;
-    padding: 0; }
+    padding: 0;
+    overflow: hidden; }
     div.rendered-file-browser div.files ul li.file > div.item {
       display: flex;
       flex-direction: column;
       padding: 4px;
       margin: 0; }
+      div.rendered-file-browser div.files ul li.file > div.item span.name {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
       div.rendered-file-browser div.files ul li.file > div.item span.thumb {
         flex-basis: 120px;
         text-align: center;
